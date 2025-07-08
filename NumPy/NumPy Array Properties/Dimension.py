@@ -7,3 +7,5 @@ arr_3d = np.array([[[10 , 20 ,30],[40,50,60],[70,80,90]]])
 print("Dimension Of arr_1d = " , arr_1d.ndim)
 print("Dimension Of arr_2d = " , arr_2d.ndim)
 print("Dimension Of arr_3d = " , arr_3d.ndim)
+
+# .ndim returns the dimension of the array

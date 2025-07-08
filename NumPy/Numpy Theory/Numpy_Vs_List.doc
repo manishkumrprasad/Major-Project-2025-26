@@ -1,0 +1,9 @@
+| Feature              | **NumPy array**                                                                             | **Python list**                                                                  |
+| -------------------- | ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------- |
+| **Type**             | Homogeneous (all elements have same type, e.g., all floats or all ints)                     | Heterogeneous (can mix types, e.g., ints, strings, floats)                       |
+| **Performance**      | Much faster for numerical operations due to internal C implementation and contiguous memory | Slower for large numerical data because each element is a separate Python object |
+| **Memory usage**     | Much more memory-efficient                                                                  | More memory overhead                                                             |
+| **Operations**       | Supports element-wise operations directly (vectorized)                                      | Requires explicit loops or list comprehensions                                   |
+| **Multidimensional** | Supports true multi-dimensional arrays (matrices, tensors)                                  | Only supports nested lists, which are less efficient and harder to manage        |
+| **Convenience**      | Built-in functions for linear algebra, statistics, broadcasting, etc.                       | Limited; must manually write most operations or use external libraries           |
+| **Slicing**          | More powerful and flexible slicing and masking                                              | Basic slicing only; no advanced broadcasting or masking                          |
