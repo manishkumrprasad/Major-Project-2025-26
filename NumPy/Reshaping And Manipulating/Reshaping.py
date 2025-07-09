@@ -16,6 +16,6 @@ arr = np.array([2,4,5,6,7,8])  # 1D array with 6 elements
 myarr = np.array([[2,3,4],
                [5,6,7]])
 
-reshaped_Arr = arr.reshape(4,4)
+reshaped_Arr = arr.reshape(2,3)
 print("New Reshaped Array Matrix = " )
 print(reshaped_Arr)
