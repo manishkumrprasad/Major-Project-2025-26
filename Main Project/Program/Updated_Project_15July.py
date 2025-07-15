@@ -26,6 +26,8 @@ frameTwo.grid(row=1 , column=0)
 
 frameFoot = tk.Frame(window , bg="yellow" , width=1280,height = 35)
 frameFoot.place(x = 0 , y = 565)
+
+#One More Essential Frame Is The MenuFrame Which Is In Line 120
 # ------------------------------------------Parent-Frame-Section-Close----------------------------------------------------------+
 
 # ------------------------------------------Icon-Section-Open----------------------------------------------------------+
@@ -464,38 +466,39 @@ canvas.grid(row=0,column=0)
 prevPoint = [0,0]
 currentPoint = [0,0]
 
-# def paint(event):
-#     # print(event.type)
-#     global prevPoint
-#     global currentPoint
-#     x = event.x
-#     y = event.y
-#     currentPoint =[x,y]
-
-#     if prevPoint != [0,0]:
-#         canvas.create_line(prevPoint[0] , prevPoint[1] , currentPoint[0] , currentPoint[1] ,fill=stroke_color.get() , width=stroke_size.get() , capstyle=tk.ROUND , smooth=True , splinesteps=36)
-            
-#     prevPoint = currentPoint 
-
-#     if event.type == "5":
-#         prevPoint = [0,0]   
-
 def paint(event):
-    global prevPoint, currentPoint
-    # Adjust mouse position according to zoom
-    x = event.x / zoom_level
-    y = event.y / zoom_level
-    currentPoint = [x, y]
+    # print(event.type)
+    global prevPoint
+    global currentPoint
+    x = event.x
+    y = event.y
+    currentPoint =[x,y]
+   
 
-    if prevPoint != [0, 0]:
-        line = canvas.create_line(prevPoint[0], prevPoint[1], currentPoint[0], currentPoint[1],
-                                  fill=stroke_color.get(), width=stroke_size.get(),
-                                  capstyle=tk.ROUND, smooth=True, splinesteps=36)
-
-    prevPoint = currentPoint
+    if prevPoint != [0,0]:
+        canvas.create_line(prevPoint[0] , prevPoint[1] , currentPoint[0] , currentPoint[1] ,fill=stroke_color.get() , width=stroke_size.get() , capstyle=tk.ROUND , smooth=True , splinesteps=36)
+            
+    prevPoint = currentPoint 
 
     if event.type == "5":
-        prevPoint = [0, 0]
+        prevPoint = [0,0]   
+
+# def paint(event):
+#     global prevPoint, currentPoint
+#     # Adjust mouse position according to zoom
+#     x = event.x / zoom_level
+#     y = event.y / zoom_level
+#     currentPoint = [x, y]
+
+#     if prevPoint != [0, 0]:
+#         line = canvas.create_line(prevPoint[0], prevPoint[1], currentPoint[0], currentPoint[1],
+#                                   fill=stroke_color.get(), width=stroke_size.get(),
+#                                   capstyle=tk.ROUND, smooth=True, splinesteps=36)
+
+#     prevPoint = currentPoint
+
+#     if event.type == "5":
+#         prevPoint = [0, 0]
 
 
 canvas.bind("<B1-Motion>" , paint)
