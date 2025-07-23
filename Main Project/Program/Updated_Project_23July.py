@@ -26,6 +26,7 @@ frameTwo.grid(row=1 , column=0)
 
 frameFoot = tk.Frame(window , bg="yellow" , width=1280,height = 35)
 frameFoot.place(x = 0 , y = 565)
+# frameFoot.place(x = 0 , y = -1)
 
 #One More Essential Frame Is The MenuFrame Which Is In Line 120
 # ------------------------------------------Parent-Frame-Section-Close----------------------------------------------------------+
@@ -271,7 +272,7 @@ def add_text_window():
 
     entry = tk.Entry(new_window , justify="center" , font=("Arial", 10) , textvariable=textofentry , width=50)
     entry.place(x = 100, y = 80)
-    btn = tk.Button(new_window , text="Add" , command= printt  , width = 10, height = 2, highlightthickness=0 , relief="flat",bd=1)
+    btn = tk.Button(new_window , text="Add" , command= add_Text  , width = 10, height = 2, highlightthickness=0 , relief="flat",bd=1)
     btn.place(x = 250 , y = 120)
 
 
@@ -527,29 +528,11 @@ def paint(event):
     if event.type == "5":
         prevPoint = [0,0]   
 
-# def paint(event):
-#     global prevPoint, currentPoint
-#     # Adjust mouse position according to zoom
-#     x = event.x / zoom_level
-#     y = event.y / zoom_level
-#     currentPoint = [x, y]
-
-#     if prevPoint != [0, 0]:
-#         line = canvas.create_line(prevPoint[0], prevPoint[1], currentPoint[0], currentPoint[1],
-#                                   fill=stroke_color.get(), width=stroke_size.get(),
-#                                   capstyle=tk.ROUND, smooth=True, splinesteps=36)
-
-#     prevPoint = currentPoint
-
-#     if event.type == "5":
-#         prevPoint = [0, 0]
-
-
 canvas.bind("<B1-Motion>" , paint)
 canvas.bind("<ButtonRelease-1>",paint)
 
 #This Function Controls The Add Text Window
-def printt():
+def add_Text():
     entered_text = entry.get()
     x_pos_text = x_slider.get()
     y_pos_text = y_slider.get()
@@ -564,6 +547,25 @@ window.bind_all("<MouseWheel>" , lambda event : incre_scale(event))
 # ---------------------------------------Shortcut-Keys-Close------------------------------------------------------------
 
 
+# ---------------------------------------Responsive-Setting-Open------------------------------------------------------------
+def on_resize(event):
+
+    if window.state() == "zoomed":
+        frameFoot.place(x= 0 , y = 612)
+        HelpSettingFrame.place(x=1050,y=0)
+        zoomFrame.place(x = 98 , y = 0)
+
+
+    else:
+        frameFoot.place(x= 0 , y = 565)
+        HelpSettingFrame.place(x=850,y=0)
+        zoomFrame.place(x = 800 , y = 0)
+
+
+
+
+window.bind("<Configure>", on_resize)
+# ---------------------------------------Responsive-Setting-Close------------------------------------------------------------
 window.mainloop()
 
 """
