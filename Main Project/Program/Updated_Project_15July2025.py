@@ -334,17 +334,29 @@ zoom_level = 1.0
 zoomFrame = tk.Frame(frameFoot, width=300,height = 35 )
 zoomFrame.place(x = 800 , y = 0)
 
+value = 100
 # zoom_scrollbar = tk.Scale(frameFoot, from_=10, to=200, orient="horizontal",width = 7 ,length = 200 , label="         Zoom In/Zoom Out")
-zoom_scrollbar = tk.Scale(zoomFrame, from_=10, to=200, orient="horizontal",width = 7 ,length = 200)
-zoom_scrollbar.set(100)
+zoom_scrollbar = tk.Scale(zoomFrame, from_=10, to=200, orient="horizontal",width = 7 ,length = 200, variable=value)
+zoom_scrollbar.set(value)
 zoom_scrollbar.place(x=50, y=-2)
 
-zoom_Out_Label = tk.Label(zoomFrame ,  image= iconOfZoomOut , width=20 , height=20)
+def increment_zoom_scale():
+    value = value + 1
+    zoom_scrollbar.set(value) 
+
+def decrement_zoom_scale():
+    zoom_scrollbar = zoom_scrollbar - 1 
+
+zoom_Out_Label = tk.Button(zoomFrame ,  image= iconOfZoomOut , width=20 , height=20,command=decrement_zoom_scale)
 zoom_Out_Label.place(x = 10 , y = 10)
 
-zoom_In_Label = tk.Label(zoomFrame , image= iconOfZoomIn , width=20 , height=20)
+zoom_In_Label = tk.Button(zoomFrame , image= iconOfZoomIn , width=20 , height=20 ,command=increment_zoom_scale)
 zoom_In_Label.place(x = 270 , y = 10)
 
+showCordinates = tk.Frame(frameFoot , width=200 , height=35)
+showCordinates.place(x = 50 , y = 0)
+
+# cordinates = "X = {x} : Y = {y}"
 
 def apply_zoom_from_scrollbar(value):
     global zoom_level
@@ -473,6 +485,18 @@ def paint(event):
     x = event.x
     y = event.y
     currentPoint =[x,y]
+    # print(x , y)
+
+    # x_pos = frameTwo.winfo_pointerx() #The winfo_pointer function gives location according to the full screen
+    # y_pos = frameTwo.winfo_pointery()
+    x_pos = x
+    y_pos = y
+
+    x_cordinate = tk.Label(showCordinates , text= x_pos )
+    x_cordinate.place(x = 10 , y = 10)
+   
+    y_cordinate  = tk.Label(showCordinates , text=  y_pos )
+    y_cordinate.place(x = 50 , y = 10)
    
 
     if prevPoint != [0,0]:
@@ -504,6 +528,8 @@ def paint(event):
 canvas.bind("<B1-Motion>" , paint)
 canvas.bind("<ButtonRelease-1>",paint)
 
+
+#This Function Controls The Add Text Window
 def printt():
     entered_text = entry.get()
     x_pos_text = x_slider.get()
