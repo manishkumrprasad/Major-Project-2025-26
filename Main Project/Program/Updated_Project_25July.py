@@ -1,5 +1,6 @@
 # All Required Packages And Libraries Required For This Project
 import tkinter as tk
+import customtkinter as ctk
 from tkinter import colorchooser
 from tkinter import Button
 from tkinter import messagebox
@@ -27,6 +28,7 @@ frameTwo.grid(row=1 , column=0)
 frameFoot = tk.Frame(window , bg="yellow" , width=1280,height = 35)
 frameFoot.place(x = 0 , y = 565)
 # frameFoot.place(x = 0 , y = -1)
+shape=""
 
 #One More Essential Frame Is The MenuFrame Which Is In Line 120
 # ------------------------------------------Parent-Frame-Section-Close----------------------------------------------------------+
@@ -58,7 +60,6 @@ colorBoxButton= Button(frameOne  , width=55, height=55, command=selectcolor , im
 colorBoxButton.place(x=610, y=60)
 
 #-------------------------------------------Color-Box-Frame-Close--------------------------------------------------------------------+
-
 #-------------------------------------------Colors-Frame-Open--------------------------------------------------------------------+
 # This Section Handle The Required Basic Colors Of Sets At The Upper Frame Of The Paint Window
 colorFrame=tk.Frame(frameOne , height=170, width=230 , borderwidth=0 ,relief="sunken" ,bg="#D6F5EF")
@@ -290,12 +291,21 @@ def add_text_window():
 
 #--------------------------------------------Help-setting-Frame-Open------------------------------------------------------------------------------+
 # The Help Button Details
-HelpSettingFrame=tk.Frame(frameOne , height=30, width=240 , borderwidth=0 ,relief="sunken",bg="white")
+HelpSettingFrame=tk.Frame(frameOne , height=30, width=240 , borderwidth=0 ,relief="sunken",bg="#FF9578")
 HelpSettingFrame.place(x=850,y=0)
 
-Help= Button(HelpSettingFrame , text="Help" , width=10, highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578" , command=help_window)
-Help.grid(row=0, column=0)
+# Help= Button(HelpSettingFrame , text="Help" , width=10, highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578" , command=help_window)
 
+Help = ctk.CTkButton(
+    master=HelpSettingFrame,
+    text="Help",
+    width=100,
+    text_color="black",
+    fg_color="#FF9578",
+    hover_color="#f7a58a",  # optional: slightly darker on hover
+    command=help_window,
+)
+Help.grid(row=0, column=0)
 Setting= Button(HelpSettingFrame , text="Setting" , width=10, highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578",command=setting_window)
 Setting.grid(row=0, column=1)
 
@@ -471,12 +481,8 @@ border_frame_three.place(x = 690 , y = 50)
 # Implementing Scale For Pencil Stroke Size So That The User Can Use The Scale To Increase The Size Of The Pencil And Eraser Stroke
 stroke_size = tk.IntVar(value = 5)
 
-scale = tk.Scale(frameOne , from_=1, to=50 , orient="horizontal" , length=200 , bg="#D6F5EF" , background="#D6F5EF" ,troughcolor="#706D68",variable=stroke_size , highlightthickness=0)
-scale.place(x = 180 ,y = 50)
-
-scale_label = tk.Label(frameOne , text="Pencil & Eraser Size", bg="#D6F5EF")
-scale_label.place(x=220 , y=130)
-
+scale= ctk.CTkSlider(master = window , from_=1, to=100 , orientation ="vertical" ,variable=stroke_size , height=300,progress_color="#370B42",button_color="#1D0088",fg_color="#A5EAFF")
+scale.place(x =10 ,y = 200)
 def incre_scale(event):
     global stroke_size
     if event.delta > 0 :
@@ -485,7 +491,10 @@ def incre_scale(event):
     else:
         res = stroke_size.get() - 2
         stroke_size.set(res)
-
+#---This will show stroke size-----------------------------------------------------------------------
+size_label = tk.Label(window, textvariable=stroke_size, bg="#D6F5FF" , width=2)
+size_label.place(x=10, y=500)
+#----------------------------------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------
 # The Canvas Frame Where The User Can Draw Things
 canvas = tk.Canvas(frameTwo , width=1280 , height=800 , bg="white")
@@ -518,6 +527,11 @@ def paint(event):
     # y_cordinate.place(x = 100 , y = 10)
 
     # coord_label = tk.Label(frameFoot)
+    #---This will show coordinates-------------------------------------------------------------------------------------------------
+    # coord_text = f"X = {event.x} : Y = {event.y}"
+    # coord_label = tk.Label(frameFoot , showCordinates, text=coord_text, bg="red")
+    # coord_label.place(x=50, y=0)
+#----------------------------------------------------------------------------------------------------------------------------------
    
 
     if prevPoint != [0,0]:
@@ -528,8 +542,80 @@ def paint(event):
     if event.type == "5":
         prevPoint = [0,0]   
 
+
+#------------------Shape--Frame---Open--------------------------------------------------------------------------------------
+shapeFrame=tk.Frame(frameOne , height=170, width=230 , borderwidth=0 ,relief="sunken" ,bg="#E2EEEC")
+shapeFrame.place(x=165,y=45)
+#Circle--
+def select_circle():
+    global shape
+    shape="circle"
+circleButton=ctk.CTkButton(shapeFrame,text="o",command=select_circle,width=3,height=1)
+circleButton.grid(row=0,column=0 ,padx=5 , pady=5)
+#Square----
+def select_rectangle():
+    global shape
+    shape="rectangle"
+rectangleButton=ctk.CTkButton(shapeFrame,text="r",command=select_rectangle,width=3,height=1)
+rectangleButton.grid(row=1,column=1 ,padx=5 , pady=5)
+#Line--------------
+def select_line():
+    global shape
+    shape="line"
+lineButton=ctk.CTkButton(shapeFrame,text="L",command=select_line,width=3,height=1)
+lineButton.grid(row=2,column=1 ,padx=5 , pady=5)
+#Triangle-----------------------
+def select_triangle():
+    global shape
+    shape = "triangle"
+
+triangleButton = ctk.CTkButton(shapeFrame, text="△", command=select_triangle, width=3, height=1)
+triangleButton.grid(row=2, column=0, padx=5, pady=5)
+
+scale_label = tk.Label(frameOne , text="Select Shape", bg="#D6F5EF")
+scale_label.place(x=240 , y=130)
+#Polygon-5sides-----------------------
+def select_polygon():
+    global shape
+    shape = "polygon"
+
+polygonButton = ctk.CTkButton(shapeFrame, text="⬠", command=select_polygon, width=3, height=1)
+polygonButton.grid(row=2, column=2, padx=5, pady=5)
+#Arc-------------------------------------
+def select_arc():
+    global shape
+    shape = "arc"
+
+arcButton = ctk.CTkButton(shapeFrame, text="ARC", command=select_arc, width=4, height=1)
+arcButton.grid(row=2, column=4, padx=5, pady=5)
+#------------------Shape--Frame---close--------------------------------------------------------------------------------------
+start_x=0
+start_y=0
+def start_shape(event):
+    global start_x, start_y
+    start_x=event.x
+    start_y=event.y
+def drawshape(event):
+    global shape
+    end_x=event.x
+    end_y=event.y
+    if shape=="circle":
+        canvas.create_oval(start_x,start_y,end_x,end_y,outline=stroke_color.get(),width=stroke_size.get())
+    elif shape=="rectangle":
+        canvas.create_rectangle(start_x,start_y,end_x,end_y,outline=stroke_color.get(),width=stroke_size.get())
+    elif shape=="line":
+        canvas.create_line(start_x,start_y,end_x,end_y,fill=stroke_color.get(),width=stroke_size.get())
+    elif shape == "triangle":
+        canvas.create_polygon(start_x, end_y,(start_x + end_x)//2, start_y, end_x, end_y,outline=stroke_color.get(),fill='', width=stroke_size.get())
+    elif shape == "polygon":
+        canvas.create_polygon( start_x, start_y, end_x, start_y, end_x, end_y, (start_x + end_x)//2, end_y + 40,start_x, end_y,outline=stroke_color.get(),fill='',width=stroke_size.get() )
+    elif shape == "arc":
+        canvas.create_arc( start_x, start_y, end_x, end_y, outline=stroke_color.get(), width=stroke_size.get(),start=0, extent=150,style=tk.ARC)
 canvas.bind("<B1-Motion>" , paint)
 canvas.bind("<ButtonRelease-1>",paint)
+canvas.bind("<ButtonPress-3>",start_shape)
+canvas.bind("<ButtonRelease-3>",drawshape)
+
 
 #This Function Controls The Add Text Window
 def add_Text():
@@ -544,6 +630,9 @@ def add_Text():
 window.bind_all("<Control-s>" , lambda event : saveImageEvent())
 window.bind_all("<Control-a>" , lambda event : ClearAllEvent())
 window.bind_all("<MouseWheel>" , lambda event : incre_scale(event))
+window.bind("<Control-p>", lambda e: usePencil())
+window.bind("<Control-e>", lambda e: useEraser())
+window.bind_all("<Control-c>" , lambda event : selectcolor())
 # ---------------------------------------Shortcut-Keys-Close------------------------------------------------------------
 
 
@@ -560,8 +649,27 @@ def on_resize(event):
         frameFoot.place(x= 0 , y = 565)
         HelpSettingFrame.place(x=850,y=0)
         zoomFrame.place(x = 800 , y = 0)
+    # width = window.winfo_width()
+    # height = window.winfo_height()
+
+    # HelpSettingFrame.place(x=width - 250, y=0)
+    # frameFoot.place(x=0, y=height - 35)
+    # zoomFrame.place(x=width - 330, y=0)
+
+    # Auto-center canvas content
+    # canvas.update()
+    # canvas.xview_moveto(0.5)
+    # canvas.yview_moveto(0.5)
 
 
 window.bind("<Configure>", on_resize)
 # ---------------------------------------Responsive-Setting-Close------------------------------------------------------------
 window.mainloop()
+
+"""
+Shortcut For Paint Application
+
+ctrl+s
+
+
+"""

@@ -1,5 +1,6 @@
 # All Required Packages And Libraries Required For This Project
 import tkinter as tk
+import customtkinter as ctk
 from tkinter import colorchooser
 from tkinter import Button
 from tkinter import messagebox
@@ -10,7 +11,7 @@ from PIL import ImageGrab as ImageGrab
 window = tk.Tk()
 window.geometry("1100x600")
 appicon = tk.PhotoImage(file="Icons/App_Icon.png")
-window.iconphoto(False , appicon)
+window.iconphoto(True , appicon)
 
 window.title("Paint Application")
 window.resizable(True , True)
@@ -153,11 +154,8 @@ def clear() :
     if messagebox.askokcancel("Warning!", "Do you want to clear everything?"):
         canvas.delete('all')
 
-
-    
 def ClearAllEvent():
     clear()  
-
 
 clearImageFrame= Button(frameOne , width=20 , height=20, image = iconOfClear , command=clear, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
 clearImageFrame.place(x=60, y=2)
@@ -221,7 +219,6 @@ def aboutus_window():
     new_window.title("About Us")
     new_window.geometry("400x600")
 
-    
     about_text = (
         "                                       About Us\n\n"
 
@@ -290,12 +287,21 @@ def add_text_window():
 
 #--------------------------------------------Help-setting-Frame-Open------------------------------------------------------------------------------+
 # The Help Button Details
-HelpSettingFrame=tk.Frame(frameOne , height=30, width=240 , borderwidth=0 ,relief="sunken",bg="white")
+HelpSettingFrame=tk.Frame(frameOne , height=30, width=240 , borderwidth=0 ,relief="sunken",bg="#FF9578")
 HelpSettingFrame.place(x=850,y=0)
 
-Help= Button(HelpSettingFrame , text="Help" , width=10, highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578" , command=help_window)
-Help.grid(row=0, column=0)
+# Help= Button(HelpSettingFrame , text="Help" , width=10, highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578" , command=help_window)
 
+Help = ctk.CTkButton(
+    master=HelpSettingFrame,
+    text="Help",
+    width=100,
+    text_color="black",
+    fg_color="#FF9578",
+    hover_color="#f7a58a",  # optional: slightly darker on hover
+    command=help_window,
+)
+Help.grid(row=0, column=0)
 Setting= Button(HelpSettingFrame , text="Setting" , width=10, highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578",command=setting_window)
 Setting.grid(row=0, column=1)
 
@@ -471,10 +477,10 @@ border_frame_three.place(x = 690 , y = 50)
 # Implementing Scale For Pencil Stroke Size So That The User Can Use The Scale To Increase The Size Of The Pencil And Eraser Stroke
 stroke_size = tk.IntVar(value = 5)
 
-scale = tk.Scale(frameOne , from_=1, to=50 , orient="horizontal" , length=200 , bg="#D6F5EF" , background="#D6F5EF" ,troughcolor="#706D68",variable=stroke_size , highlightthickness=0)
-scale.place(x = 180 ,y = 50)
+scale= ctk.CTkSlider(master = window , from_=1, to=100 , orientation ="vertical" ,variable=stroke_size , height=300)
+scale.place(x =10 ,y = 200)
 
-scale_label = tk.Label(frameOne , text="Pencil & Eraser Size", bg="#D6F5EF")
+scale_label = tk.Label(frameOne , text="Add Shapes Box Here ", bg="#D6F5EF")
 scale_label.place(x=220 , y=130)
 
 def incre_scale(event):
@@ -565,3 +571,11 @@ def on_resize(event):
 window.bind("<Configure>", on_resize)
 # ---------------------------------------Responsive-Setting-Close------------------------------------------------------------
 window.mainloop()
+
+"""
+Shortcut For Paint Application
+
+ctrl+s
+
+
+"""
