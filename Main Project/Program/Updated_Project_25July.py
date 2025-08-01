@@ -1,12 +1,12 @@
 # All Required Packages And Libraries Required For This Project
 import tkinter as tk
-import customtkinter as ctk
+import customtkinter as ctk # type: ignore
 from tkinter import colorchooser
 from tkinter import Button
 from tkinter import messagebox
 from tkinter import scrolledtext
 from tkinter import filedialog
-from PIL import ImageGrab as ImageGrab
+from PIL import ImageGrab as ImageGrab # type: ignore
 
 window = tk.Tk()
 window.geometry("1100x600")
@@ -47,6 +47,9 @@ iconOfSelectColor = tk.PhotoImage(file="Icons/Small_MoreColorsWithPlus.png")
 
 iconOfZoomIn = tk.PhotoImage(file="Icons/Small_Zoom_In.png")
 iconOfZoomOut = tk.PhotoImage(file="Icons/Small_Zoom_Out.png")
+
+iconOfRectangle = tk.PhotoImage(file="Icons/Small_Shape_Rectangle.png")
+iconOfTriangle = tk.PhotoImage(file= "Icons/Small_Shape_Triangle.png")
 
 # ------------------------------------------Icon-Section-Close----------------------------------------------------------+
 
@@ -356,22 +359,9 @@ zoomFrame.place(x = 800 , y = 0)
 
 value = 100
 # zoom_scrollbar = tk.Scale(frameFoot, from_=10, to=200, orient="horizontal",width = 7 ,length = 200 , label="         Zoom In/Zoom Out")
-zoom_scrollbar = tk.Scale(zoomFrame, from_=10, to=200, orient="horizontal",width = 7 ,length = 200, variable=value)
-zoom_scrollbar.set(value)
-zoom_scrollbar.place(x=50, y=-2)
 
-def increment_zoom_scale():
-    value = value + 1
-    zoom_scrollbar.set(value) 
 
-def decrement_zoom_scale():
-    zoom_scrollbar = zoom_scrollbar - 1 
 
-zoom_Out_Label = tk.Button(zoomFrame ,  image= iconOfZoomOut , width=20 , height=20,command=decrement_zoom_scale)
-zoom_Out_Label.place(x = 10 , y = 10)
-
-zoom_In_Label = tk.Button(zoomFrame , image= iconOfZoomIn , width=20 , height=20 ,command=increment_zoom_scale)
-zoom_In_Label.place(x = 270 , y = 10)
 
 showCordinates = tk.Frame(frameFoot , width=200 , height=35)
 showCordinates.place(x = 50 , y = 0)
@@ -385,7 +375,24 @@ def apply_zoom_from_scrollbar(value):
     canvas.scale("all", 0, 0, scale, scale)
     canvas.configure(scrollregion=canvas.bbox("all"))
 
-zoom_scrollbar.config(command=apply_zoom_from_scrollbar)
+# zoom_scrollbar.config(command=apply_zoom_from_scrollbar)
+
+def increment_zoom_scale():
+    value = value + 1
+    zoom_scrollbar.set(value) 
+
+def decrement_zoom_scale():
+    zoom_scrollbar = zoom_scrollbar - 1 
+
+zoom_scrollbar = tk.Scale(zoomFrame, from_=10, to=200, orient="horizontal",width = 7 ,length = 200, variable=value , command = apply_zoom_from_scrollbar)
+zoom_scrollbar.set(value)
+zoom_scrollbar.place(x=50, y=-2)
+
+zoom_Out_Label = tk.Button(zoomFrame ,  image= iconOfZoomOut , width=20 , height=20,command=decrement_zoom_scale)
+zoom_Out_Label.place(x = 10 , y = 10)
+
+zoom_In_Label = tk.Button(zoomFrame , image= iconOfZoomIn , width=20 , height=20 ,command=increment_zoom_scale)
+zoom_In_Label.place(x = 270 , y = 10)
 
 # Pan with middle mouse button
 drag_start = [0, 0]
@@ -543,34 +550,35 @@ def paint(event):
         prevPoint = [0,0]   
 
 
-#------------------Shape--Frame---Open--------------------------------------------------------------------------------------
-shapeFrame=tk.Frame(frameOne , height=170, width=230 , borderwidth=0 ,relief="sunken" ,bg="#E2EEEC")
-shapeFrame.place(x=165,y=45)
+#-------------------------------------Shape--Frame---Open--------------------------------------------------------------------------------------
+shapeFrame=tk.Frame(frameOne , height=70, width=220 , borderwidth=0 ,relief="sunken" ,bg="#368A7C")
+shapeFrame.place(x=170,y=55)
 #Circle--
 def select_circle():
     global shape
     shape="circle"
 circleButton=ctk.CTkButton(shapeFrame,text="o",command=select_circle,width=3,height=1)
-circleButton.grid(row=0,column=0 ,padx=5 , pady=5)
+circleButton.place(x = 0 , y = 0)
 #Square----
 def select_rectangle():
     global shape
     shape="rectangle"
-rectangleButton=ctk.CTkButton(shapeFrame,text="r",command=select_rectangle,width=3,height=1)
-rectangleButton.grid(row=1,column=1 ,padx=5 , pady=5)
+rectangle_Shape_Button=ctk.CTkButton(shapeFrame,text="",command=select_rectangle,width=3,height=1 , image = iconOfRectangle , fg_color = "transparent")
+# rectangle_Shape_Button.grid(row=1,column=1 ,padx=5 , pady=5)
+rectangle_Shape_Button.place(x = 40 , y = 0)
 #Line--------------
 def select_line():
     global shape
     shape="line"
 lineButton=ctk.CTkButton(shapeFrame,text="L",command=select_line,width=3,height=1)
-lineButton.grid(row=2,column=1 ,padx=5 , pady=5)
+lineButton.place(x = 80 , y = 0)
 #Triangle-----------------------
 def select_triangle():
     global shape
     shape = "triangle"
 
-triangleButton = ctk.CTkButton(shapeFrame, text="△", command=select_triangle, width=3, height=1)
-triangleButton.grid(row=2, column=0, padx=5, pady=5)
+triangle_Shape_Button = ctk.CTkButton(shapeFrame, text="", command=select_triangle, width=3, height=1,  image = iconOfTriangle , fg_color = "transparent")
+triangle_Shape_Button.place(x = 120 , y = 0)
 
 scale_label = tk.Label(frameOne , text="Select Shape", bg="#D6F5EF")
 scale_label.place(x=240 , y=130)
@@ -579,16 +587,16 @@ def select_polygon():
     global shape
     shape = "polygon"
 
-polygonButton = ctk.CTkButton(shapeFrame, text="⬠", command=select_polygon, width=3, height=1)
-polygonButton.grid(row=2, column=2, padx=5, pady=5)
+polygon_Shape_Button = ctk.CTkButton(shapeFrame, text="⬠", command=select_polygon, width=3, height=1)
+polygon_Shape_Button.place(x = 160 , y = 0)
 #Arc-------------------------------------
 def select_arc():
     global shape
     shape = "arc"
 
-arcButton = ctk.CTkButton(shapeFrame, text="ARC", command=select_arc, width=4, height=1)
-arcButton.grid(row=2, column=4, padx=5, pady=5)
-#------------------Shape--Frame---close--------------------------------------------------------------------------------------
+arc_Shape_Button = ctk.CTkButton(shapeFrame, text="ARC", command=select_arc, width=4, height=1)
+arc_Shape_Button.place(x = 0 , y = 40)
+#------------------------------------Shape--Frame---close--------------------------------------------------------------------------------------
 start_x=0
 start_y=0
 def start_shape(event):
