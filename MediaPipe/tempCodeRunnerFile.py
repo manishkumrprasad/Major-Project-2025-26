@@ -1,0 +1,1 @@
+mp_drawing.draw_landmarks(frame , hand_landmarks , mp_hands.HAND_CONNECTIONS)

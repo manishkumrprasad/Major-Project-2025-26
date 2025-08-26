@@ -1,5 +1,4 @@
 # This program checks whether each finger is open or closed
-import time
 import mediapipe as mp
 import cv2
 import pydirectinput
@@ -12,6 +11,8 @@ mp_hands = mp.solutions.hands.Hands(
     max_num_hands=1
 )
 mp_drawing = mp.solutions.drawing_utils
+action = None
+last_action = None
 
 while cap.isOpened():
     ret, frame = cap.read()
@@ -27,6 +28,8 @@ while cap.isOpened():
     # cv2.putText(frame, f"Gesture = {out_result}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 1, (0,0,255), 2)
     cv2.line(frame , (150,0) , (150,480) , (0,0,255) , 2)
     cv2.line(frame , (490,0) , (490,480) , (0,0,255) , 2)
+
+    
 
     if result.multi_hand_landmarks:
         for hand_landmarks in result.multi_hand_landmarks:
@@ -54,36 +57,39 @@ while cap.isOpened():
             x20, y20 = int(hand_landmarks.landmark[20].x * frame_x), int(hand_landmarks.landmark[20].y * frame_y)
             x18, y18 = int(hand_landmarks.landmark[18].x * frame_x), int(hand_landmarks.landmark[18].y * frame_y)
 
+            #Slide
+            if x2 < x4 and  y8 > y6 and y12 > y10 and y16 > y14 and y20 > y18:
+                action = "SLIDE"#jump when hend gesture is in fist mode
+                continue
 
             #Jump
-            if x2 < x4 and  y8 < y6 and y12 < y10 and y16 < y14 and y20 < y18:
+            elif x2 < x4 and  y8 < y6 and y12 < y10 and y16 < y14 and y20 < y18:
                 action = "JUMP"
-                out_result = "Four Fingurs Open"
-                cv2.putText(frame, f"Gesture = {out_result} , Action = {action}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2)
-                pydirectinput.press('up' , interval=0)
-
-            #Slide
-            elif x2 < x4 and  y8 > y6 and y12 > y10 and y16 > y14 and y20 > y18:
-                action = "SLIDE"#jump when hend gesture is in fist mode
-                out_result = "Fist"
-                cv2.putText(frame, f"Gesture = {out_result} , Action = {action}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2)
-                pydirectinput.press('down' , interval= 0)
+                continue
             # Move Left
             elif x4 < 150:
                 action = "MOVE LEFT"
-                out_result = "Moving LEft"
-                cv2.putText(frame, f"Gesture = {out_result} , Action = {action}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2)
-                pydirectinput.press('left' , interval= 0)
             # Move Right
             elif x20 > 490:
                 action = "MOVE RIGHT"
-                out_result = "Moving Right"
-                cv2.putText(frame, f"Gesture = {out_result} , Action = {action}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2)
-                pydirectinput.press('right' , interval=0)
+            #Doing Nothing
+            elif (y2 > y4 or x2 > x4) and  y8 > y6 and y12 > y10 and y16 > y14 and y20 > y18:
+                action = "Nothing"
             else:
                 action = "nothing"#no action when 5 fingers are shown
-                out_result = "None"
-                cv2.putText(frame, f"Gesture = {out_result}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2)
+                # out_result = "None"
+                # cv2.putText(frame, f"Gesture = {out_result}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2)
+
+            if action == "JUMP" and last_action != "JUMP":
+                cv2.putText(frame, f"Gesture = {out_result} , Action = {action}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2)
+                pydirectinput.press('up')
+                last_action = "JUMP"
+                
+            elif action == "SLIDE" and last_action != "SLIDE":
+              cv2.putText(frame, f"Gesture = {out_result} , Action = {action}", (20, 40), cv2.FONT_HERSHEY_SIMPLEX, 0.7, (0,0,255), 2)
+              pydirectinput.press('down')
+              last_action = "SLIDE"
+            
 
     cv2.imshow("Finger Status Detector", frame)
     if cv2.waitKey(1) & 0xff == 27:  # ESC to quit

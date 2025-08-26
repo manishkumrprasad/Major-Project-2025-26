@@ -2,7 +2,7 @@ import mediapipe as mp
 import cv2
 import pyautogui
 
-cap = cv2.VideoCapture(1)
+cap = cv2.VideoCapture(0)
 prev_x , prev_y = 0 , 0
 smoothening = 5
 screen_w, screen_h = pyautogui.size()
