@@ -17,6 +17,13 @@ import speech_recognition as sr
 import pyaudio
 import math
 import threading
+import ttkbootstrap as ttk
+
+#! Module Import
+from Utils.utils_icons import load_icons
+from Utils.utils_audio import SoundManager
+# from Menu_Utils.menu_windows import MenuWindow
+
 
 window = tk.Tk()
 window.geometry("1100x600")
@@ -27,10 +34,18 @@ window.title("Vision Draw")
 window.resizable(True , True)
 sound_on=True#-->Default Sound state
 
+#! Importing Module Function
+icons = load_icons(window)
+sound = SoundManager()
+# menu_win = MenuWindow(window)
+
+
 # ------------------------------------------Parent-Frame-Section-Open----------------------------------------------------------+
 # Parent Paint Toolbars / Which Will Contain All The Tools Frame Such As toolbar , color pallette , file management , help box etc
 frameOne = tk.Frame(window , bg="#D6F5EF" , width=1280,height=160)
 frameOne.grid(row=0 , column=0 , sticky=tk.NW)
+# frameOne = ttk.Frame(window , bootstyle="primary" , width=1280,height=160)
+# frameOne.grid(row=0 , column=0 , sticky=tk.NW)
 
 # Parent Paint Frame Which Contain Only The Canvas Frame
 frameTwo = tk.Frame(window , bg="#134B40" , width=1280,height=800)
@@ -57,90 +72,7 @@ pencil_select=0
 #One More Essential Frame Is The MenuFrame Which Is In Line 120
 # ------------------------------------------Parent-Frame-Section-Close----------------------------------------------------------+
 
-# ------------------------------------------Icon-Section-Open----------------------------------------------------------+
 
-#The Icon Section Contains All The Icon That Are Going To Be Used Throughout The Program  
-iconOfPencil = tk.PhotoImage(file="Icons/Small_Pencil.png")
-iconOfEraser = tk.PhotoImage(file="Icons/Small_Eraser.png")
-iconOfFont = tk.PhotoImage(file="Icons/Small_Font.png")
-iconOfGlass = tk.PhotoImage(file="Icons/Small_Glass.png")
-iconOfFill = tk.PhotoImage(file="Icons/Small_Fill.png")
-iconOfSave = tk.PhotoImage(file="Icons/Small_Save.png")
-iconOfClear = tk.PhotoImage(file="Icons/Small_Clear.png")
-iconOfSelectColor = tk.PhotoImage(file="Icons/Small_MoreColorsWithPlus.png")
-iconOfCamera=tk.PhotoImage(file="Icons/camera.png")
-iconofsoundOn=tk.PhotoImage(file="Icons/Volume.png")
-iconofsoundOff=tk.PhotoImage(file="Icons/Mute.png")
-iconofUndo=tk.PhotoImage(file="Icons/undo.png")
-iconofRedo=tk.PhotoImage(file="Icons/redo.png")
-iconofSetting=tk.PhotoImage(file="Icons/settings.png")
-iconofAboutus=tk.PhotoImage(file="Icons/request.png")
-iconofHelp=tk.PhotoImage(file="Icons/help.png")
-
-iconOfZoomIn = tk.PhotoImage(file="Icons/Small_Zoom_In.png")
-iconOfZoomOut = tk.PhotoImage(file="Icons/Small_Zoom_Out.png")
-
-iconOfRectangle = tk.PhotoImage(file="Icons/Small_Shape_Rectangle.png")
-iconOfTriangle = tk.PhotoImage(file= "Icons/Small_Shape_Triangle.png")
-iconofCircle = tk.PhotoImage(file="Icons/Small_Shape_Circle.png")
-iconofHexagon = tk.PhotoImage(file="Icons/Small_Shape_Hexagon.png")
-iconOfLine =  tk.PhotoImage(file="Icons/Small_Shape_Line.png")
-iconOfArrow =  tk.PhotoImage(file="Icons/Small_Shape_Arrow.png")
-iconOfHeart =  tk.PhotoImage(file="Icons/Small_Shape_Heart.png")
-iconOfArc =  tk.PhotoImage(file="Icons/Small_Shape_Arc.png")
-iconOfPolygon = tk.PhotoImage(file="Icons/Small_Shape_Polygon.png")
-Mic_Icon=tk.PhotoImage(file="Icons/microphone.png")
-Mic_open=tk.PhotoImage(file="Icons/microphone_open.png")
-# ------------------------------------------Icon-Section-Close----------------------------------------------------------+
-#-------------------------------------------Audio-Section-Open----------------------------------------------------------+
-# Initialize pygame Mixer
-pygame.mixer.init()
-welcome=pygame.mixer.Sound("Audio/Welcome.mp3")
-CameraOpen=pygame.mixer.Sound("Audio/Camera Opened.mp3")
-CameraClose=pygame.mixer.Sound("Audio/Camera Closed.mp3")
-SoundOn_Sound=pygame.mixer.Sound("Audio/SoundOn.mp3")
-SoundOff_Sound=pygame.mixer.Sound("Audio/SoundOff.mp3")
-
-Rectangle_Sound=pygame.mixer.Sound("Audio/Rectangle.mp3")
-Circle_Sound=pygame.mixer.Sound("Audio/Circle.mp3")
-Triangle_Sound=pygame.mixer.Sound("Audio/Triangle.mp3")
-Heart_Sound=pygame.mixer.Sound("Audio/Heart.mp3")
-Pentagon_Sound=pygame.mixer.Sound("Audio/Pentagon.mp3")
-Line_Sound=pygame.mixer.Sound("Audio/Line.mp3")
-Arrow_Sound=pygame.mixer.Sound("Audio/Arrow.mp3")
-
-selectcolor_Sound=pygame.mixer.Sound("Audio/SelectColor.mp3")
-Pencil_Sound=pygame.mixer.Sound("Audio/Pencil.mp3")
-DefaultBlack_Sound=pygame.mixer.Sound("Audio/DefaultBlack.mp3")
-Eraser_Sound=pygame.mixer.Sound("Audio/Eraser.mp3")
-OpenImage_Sound=pygame.mixer.Sound("Audio/OpenImage.mp3")
-Save_Sound=pygame.mixer.Sound("Audio/Save.mp3")
-ImageSaved_Sound=pygame.mixer.Sound("Audio/ImageSaved.mp3")
-clear_Sound=pygame.mixer.Sound("Audio/Clear.mp3")
-EverythingCleared_Sound=pygame.mixer.Sound("Audio/Everything Cleared.mp3")
-
-#Ai_Audio_Section-----------------------------------
-AiModeOn=pygame.mixer.Sound("Audio/MicOn.mp3")
-AiModeOff=pygame.mixer.Sound("Audio/MicOff.mp3")
-ArcResponse=pygame.mixer.Sound("Audio/ArcResponse.mp3")
-ArrowResponse=pygame.mixer.Sound("Audio/ArrowResponse.mp3")
-CircleResponse=pygame.mixer.Sound("Audio/CircleResponse.mp3")
-DashedLineResponse=pygame.mixer.Sound("Audio/DashedLineResponse.mp3")
-DottedLineResponse=pygame.mixer.Sound("Audio/DottedLineResponse.mp3")
-SolidLineResponse=pygame.mixer.Sound("Audio/SolidLineResponse.mp3")
-EraserResponse=pygame.mixer.Sound("Audio/EraserResponse.mp3")
-PencilResponse=pygame.mixer.Sound("Audio/PencilResponse.mp3")
-RectangleResponse=pygame.mixer.Sound("Audio/RectangleResponse.mp3")
-TriangleResponse=pygame.mixer.Sound("Audio/TriangleResponse.mp3")
-PentagonResponse=pygame.mixer.Sound("Audio/PentagonResponse.mp3")
-GoodAfternoon=pygame.mixer.Sound("Audio/GoodAfternoon.mp3")
-GoodMorning=pygame.mixer.Sound("Audio/GoodMorning.mp3")
-GoodEvening=pygame.mixer.Sound("Audio/GoodEvening.mp3")
-HelloSir=pygame.mixer.Sound("Audio/HelloSir.mp3")
-Sorry=pygame.mixer.Sound("Audio/Sorry.mp3")
-ThankYou=pygame.mixer.Sound("Audio/ThankYou.mp3")
-
-#-------------------------------------------Audio-section-Close----------------------------------------------------------+
 
 #-------------------------------------------Color-Box-Frame-Open--------------------------------------------------------------------+
 # This Compartment Of The Code Handle The Position And Other Things Of The Color Selection Box
@@ -148,19 +80,21 @@ def selectcolor():
     global stroke_color
     global current_color_label
     if sound_on:
-        selectcolor_Sound.play()
+        sound.play("selectcolor_Sound")
     selectedcolor = colorchooser.askcolor("red" , title="Select Color")
     stroke_color.set(selectedcolor[1])
     current_color_label.config(bg=selectedcolor[1])
 
-colorBoxButton= Button(frameOne  , width=55, height=55, command=selectcolor , image= iconOfSelectColor , bg="#D6F5EF" , activebackground="#D6F5EF" , highlightthickness=0 , relief="flat",bd=0)
+
+colorBoxButton= Button(frameOne  , width=55, height=55, command=selectcolor , image= icons["select_color"] , bg="#D6F5EF" , activebackground="#D6F5EF" , highlightthickness=0 , relief="flat",bd=0)
 colorBoxButton.place(x=740, y=37)
 
 #-------------------------------------------Color-Box-Frame-Close--------------------------------------------------------------------+
 #-------------------------------------------Camera-OPEN------------------------------------------------------------------------------+
 cap=cv2.VideoCapture(0)
 def camera():
-    CameraOpen.play()
+    sound.play("CameraOpen")
+
     mpHands=mp.solutions.hands
     hands=mpHands.Hands()#This class only uses RGB Image
     mpDraw=mp.solutions.drawing_utils
@@ -186,9 +120,10 @@ def camera():
         if cv2.waitKey(1) & 0xff == ord('q'):
             print("Quitting...:...")#after pressing q it will will quit the camera
             break
-    CameraClose.play()
+    sound.play("CameraClose")
+
     cap.release()#This will off the camera
-CameraButton= Button(frameOne  , width=90, height=90 ,image= iconOfCamera ,command=camera ,bg="#D6F5EF" , activebackground="#D6F5EF" , highlightthickness=0 , relief="flat",bd=0)
+CameraButton= Button(frameOne  , width=90, height=90 ,image= icons["camera"],command=camera ,bg="#D6F5EF" , activebackground="#D6F5EF" , highlightthickness=0 , relief="flat",bd=0)
 CameraButton.place(x=820, y=40)
 
 cameraLabel = tk.Label(frameOne , text="Camera" , width=20 ,bg="#D6F5EF"  )
@@ -282,10 +217,11 @@ def usePencil():
     pencil_select=pencil_select+1
     if sound_on and not start_AI_is_running :
         if pencil_select !=1:
-            Pencil_Sound.play()
+            sound.play("Pencil_Sound")
+
             stroke_color.get()
         if pencil_select==1:
-            window.after(6000, lambda:DefaultBlack_Sound.play())
+            window.after(6000, lambda:sound.play("DefaultBlack_Sound"))
             stroke_color.set("black")
             current_color_label.config(bg="Black")
 
@@ -298,7 +234,7 @@ def usePencil():
 
 def useEraser():
     if sound_on and not start_AI_is_running:
-        Eraser_Sound.play()
+        sound.play("Eraser_Sound")
     stroke_color.set("white")
     current_color_label.config(bg="white")
     canvas.config(cursor = "dotbox")
@@ -313,13 +249,14 @@ def addText():
 menuFrame = tk.Frame(frameOne , height=30 , width=1280 , bg="#FF9578")
 menuFrame.place(x=0,y=0)
 
+
 # ------------------------------------------Menu-Section-Close----------------------------------------------------------+
 
 #-------------------------------------------Save-Image-Frame-Open--------------------------------------------------------------------+
 # Contains The Save Button Details
 def SaveImage():
     if sound_on and not start_AI_is_running:
-        Save_Sound.play()
+        sound.play("Save_Sound")
     filelocation= filedialog.asksaveasfilename(defaultextension="jpg")
     x=window.winfo_rootx()+35
     y=window.winfo_rooty()+250
@@ -327,9 +264,9 @@ def SaveImage():
     img.save(filelocation)
     if img.save:
         if sound_on:
-            ImageSaved_Sound.play()
+            sound.play("ImageSaved_Sound")
     if sound_on:
-        window.after(2000,lambda:OpenImage_Sound.play())
+        window.after(2000,lambda:sound.play("OpenImage_Sound"))
     showImage = messagebox.askyesno("Paint App", "Do you want open image?")
     
     print(showImage)
@@ -340,7 +277,7 @@ def saveImageEvent():
     SaveImage()  
 
 
-saveImagebutton= Button(frameOne , image= iconOfSave ,command=SaveImage, width=20, height= 20 , highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578",)
+saveImagebutton= Button(frameOne , image= icons["save"] ,command=SaveImage, width=20, height= 20 , highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578",)
 saveImagebutton.place(x=15, y=2)
 
 #-------------------------------------------Save-Image-Frame-Close--------------------------------------------------------------------+
@@ -349,16 +286,16 @@ saveImagebutton.place(x=15, y=2)
 # The Clear All Button Details
 def clear() :
     if sound_on and not start_AI_is_running:
-        clear_Sound.play()
+        sound.play("clear_Sound")
     if messagebox.askokcancel("Warning!", "Do you want to clear everything?"):
         canvas.delete('all')
         if sound_on:
-            EverythingCleared_Sound.play()
+            sound.play("EverythingCleared_Sound")
 
 def ClearAllEvent():
     clear()  
 
-clearImageFrame= Button(frameOne , width=20 , height=20, image = iconOfClear , command=clear, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
+clearImageFrame= Button(frameOne , width=20 , height=20, image = icons["clear"] , command=clear, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
 clearImageFrame.place(x=60, y=2)
 #-------------------------------------------Clear-image-Frame-Close------------------------------------------------------------------------+
 
@@ -368,7 +305,7 @@ def undo():
         last_item=undo_stack.pop()
         canvas.itemconfig(last_item,state='hidden')
         redo_stack.append(last_item)
-undo_button=Button(frameOne , width=20 , height=20, image = iconofUndo , command=undo, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
+undo_button=Button(frameOne , width=20 , height=20, image = icons["undo"] , command=undo, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
 undo_button.place(x=110,y=2)
 def redo():
     global undo_stack , redo_stack
@@ -376,7 +313,7 @@ def redo():
         item_id=redo_stack.pop()
         canvas.itemconfig(item_id,state='normal')
         undo_stack.append(item_id)
-redo_button=Button(frameOne , width=20 , height=20, image = iconofRedo, command=redo, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
+redo_button=Button(frameOne , width=20 , height=20, image = icons["redo"], command=redo, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
 redo_button.place(x=140,y=2)
 
 #-------------------------------------------UNDO_BUTTON_FRAME_CLOSE------------------------------------------------------------------------------------+
@@ -577,10 +514,10 @@ zoom_scrollbar = tk.Scale(zoomFrame, from_=5, to=300, orient="horizontal",width 
 zoom_scrollbar.set(value)
 zoom_scrollbar.place(x=50, y=-2)
 
-zoom_Out_Label = tk.Button(zoomFrame ,  image= iconOfZoomOut , width=20 , height=20,command=decrement_zoom_scale)
+zoom_Out_Label = tk.Button(zoomFrame ,  image= icons["zoom_out"] , width=20 , height=20,command=decrement_zoom_scale)
 zoom_Out_Label.place(x = 10 , y = 10)
 
-zoom_In_Label = tk.Button(zoomFrame , image= iconOfZoomIn , width=20 , height=20 ,command=increment_zoom_scale)
+zoom_In_Label = tk.Button(zoomFrame , image= icons["zoom_in"], width=20 , height=20 ,command=increment_zoom_scale)
 zoom_In_Label.place(x = 270 , y = 10)
 
 # Pan with middle mouse button
@@ -635,19 +572,19 @@ toolFrame = tk.Frame(frameOne , height=120 , width=120 , bg="#D6F5EF", highlight
 toolFrame.place(x = 20  , y = 50 )
 
 #Pencil Button/Icon -> Onclicking The Button The User Can Use The Pencil   
-pencilIcon = tk.Button(toolFrame ,  width=25 , height=25 , image= iconOfPencil , command=usePencil, highlightthickness=0 , relief="flat" )
+pencilIcon = tk.Button(toolFrame ,  width=25 , height=25 , image= icons["pencil"], command=usePencil, highlightthickness=0 , relief="flat" )
 pencilIcon.place(x = 5 , y = 5 )
 
 # Rubber Button/Icon
-eraserIcon = tk.Button(toolFrame , width=25, height=25 , image=iconOfEraser , command= useEraser, highlightthickness=0 , relief="flat")
+eraserIcon = tk.Button(toolFrame , width=25, height=25 , image=icons["eraser"], command= useEraser, highlightthickness=0 , relief="flat")
 eraserIcon.place(x = 5 , y = 40)
 
 # Font Icon
-fontIcon = tk.Button(toolFrame , width=25, height=25 , image=iconOfFont, highlightthickness=0,command= addText , relief="flat")
+fontIcon = tk.Button(toolFrame , width=25, height=25 , image=icons["font"], highlightthickness=0,command= addText , relief="flat")
 fontIcon.place(x = 40 , y = 5)
 
 # Fill Icon+
-fillIcon = tk.Button(toolFrame , width=25, height=25, image=iconOfFill, highlightthickness=0 , relief="flat")
+fillIcon = tk.Button(toolFrame , width=25, height=25, image=icons["fill"], highlightthickness=0 , relief="flat")
 fillIcon.place(x=80, y = 5)
 
 # One More Icon keep x = 80 and y = 40
@@ -706,7 +643,7 @@ def solidline():
     global current_line
     current_line=1
     if sound_on:
-        SolidLineResponse.play()
+        sound.play("SolidLineResponse")
     SolidLineButton.configure(fg_color="white")
     DashedLineButton.configure(fg_color="#E5F0EF")
     DottedLineButton.configure(fg_color="#E5F0EF")
@@ -718,7 +655,7 @@ def DashedLine():
     global current_line
     current_line=2
     if sound_on:
-        DashedLineResponse.play()
+        sound.play("DashedLineResponse")
     DashedLineButton.configure(fg_color="white")
     DottedLineButton.configure(fg_color="#E5F0EF")
     SolidLineButton.configure(fg_color="#E5F0EF")
@@ -730,7 +667,7 @@ def DottedLine():
     global current_line
     current_line=3
     if sound_on:
-        DottedLineResponse.play()
+        sound.play("DottedLineResponse")
     DottedLineButton.configure(fg_color="white")
     DashedLineButton.configure(fg_color="#E5F0EF")
     SolidLineButton.configure(fg_color="#E5F0EF")
@@ -785,17 +722,17 @@ shapeFrame.place(x=300,y=55)
 def select_circle():
     global shape
     if sound_on and not start_AI_is_running:
-        Circle_Sound.play()
+        sound.play("Circle_Sound")
     shape="circle"
-circleButton=ctk.CTkButton(shapeFrame,text="",command=select_circle,width=4,height=2 , image = iconofCircle , fg_color = "transparent")
+circleButton=ctk.CTkButton(shapeFrame,text="",command=select_circle,width=4,height=2 , image = icons["circle"] , fg_color = "transparent")
 circleButton.place(x = 7 , y = 0)
 #Square----
 def select_rectangle():
     global shape
     if sound_on and not start_AI_is_running:
-        Rectangle_Sound.play()
+        sound.play("Rectangle_Sound")
     shape="rectangle"
-rectangle_Shape_Button=ctk.CTkButton(shapeFrame,text="",command=select_rectangle,width=3,height=1 , image = iconOfRectangle , fg_color = "transparent")
+rectangle_Shape_Button=ctk.CTkButton(shapeFrame,text="",command=select_rectangle,width=3,height=1 , image = icons["rectangle"], fg_color = "transparent")
 # rectangle_Shape_Button.grid(row=1,column=1 ,padx=5 , pady=5)
 rectangle_Shape_Button.place(x = 35 , y = 0)
 #Line--------------
@@ -803,17 +740,17 @@ def select_line():
     global shape
     shape="line"
     if sound_on and not start_AI_is_running:
-        Line_Sound.play()
-lineButton=ctk.CTkButton(shapeFrame,text="",command=select_line,width=3,height=1, image = iconOfLine , fg_color = "transparent")
+        sound.play("Line_Sound")
+lineButton=ctk.CTkButton(shapeFrame,text="",command=select_line,width=3,height=1, image = icons["line"] , fg_color = "transparent")
 lineButton.place(x = 80 , y = 0)
 #Triangle-----------------------
 def select_triangle():
     global shape
     if sound_on and not start_AI_is_running:
-        Triangle_Sound.play()
+        sound.play("Triangle_Sound")
     shape = "triangle"
 
-triangle_Shape_Button = ctk.CTkButton(shapeFrame, text="", command=select_triangle, width=3, height=1,  image = iconOfTriangle , fg_color = "transparent")
+triangle_Shape_Button = ctk.CTkButton(shapeFrame, text="", command=select_triangle, width=3, height=1,  image = icons["triangle"] , fg_color = "transparent")
 triangle_Shape_Button.place(x = 120 , y = 0)
 
 scale_label = tk.Label(frameOne , text="Select Shape", bg="#D6F5EF")
@@ -823,26 +760,26 @@ def select_polygon():
     global shape
     shape = "polygon"
     if sound_on and not start_AI_is_running:
-        Pentagon_Sound.play()
+        sound.play("Pentagon_Sound")
 
-polygon_Shape_Button = ctk.CTkButton(shapeFrame, text="", command=select_polygon, width=3, height=1, image = iconOfPolygon , fg_color = "transparent")
+polygon_Shape_Button = ctk.CTkButton(shapeFrame, text="", command=select_polygon, width=3, height=1, image = icons["polygon"] , fg_color = "transparent")
 polygon_Shape_Button.place(x = 160 , y = 0)
 #Arc----------------------------------------------------
 def select_arc():
     global shape
     shape = "arc"
     if sound_on:
-        ArcResponse.play()
+        sound.play("ArcResponse")
 
-arc_Shape_Button = ctk.CTkButton(shapeFrame, text="", command=select_arc, width=4, height=1, image = iconOfArc , fg_color = "transparent")
+arc_Shape_Button = ctk.CTkButton(shapeFrame, text="", command=select_arc, width=4, height=1, image = icons["arc"] , fg_color = "transparent")
 arc_Shape_Button.place(x = 7 , y = 40)
 #Heart-----------------------------------------------------------------------------
 def select_heart():
     global shape
     shape="heart"
     if sound_on and not start_AI_is_running:
-        Heart_Sound.play()
-heart_Shape_Button = ctk.CTkButton(shapeFrame, text="", command=select_heart, width=4, height=1, image = iconOfHeart , fg_color = "transparent")
+        sound.play("Heart_Sound")
+heart_Shape_Button = ctk.CTkButton(shapeFrame, text="", command=select_heart, width=4, height=1, image = icons["heart"] , fg_color = "transparent")
 heart_Shape_Button.place(x = 35 , y = 40)
 #cloud---------------------------------------------------------------------------------
 # def select_cloud():
@@ -854,9 +791,9 @@ heart_Shape_Button.place(x = 35 , y = 40)
 def select_arrow():
     global shape
     if sound_on and not start_AI_is_running:
-        Arrow_Sound.play()
+        sound.play("Arrow_Sound")
     shape="arrow"
-arrow_Shape_Button = ctk.CTkButton(shapeFrame, text="", command=select_arrow, width=4, height=1, image = iconOfArrow , fg_color = "transparent")
+arrow_Shape_Button = ctk.CTkButton(shapeFrame, text="", command=select_arrow, width=4, height=1, image = icons["arrow"] , fg_color = "transparent")
 arrow_Shape_Button.place(x = 108 , y = 40)
 #star---------------------------------------------------------------------------------
 # def select_star():
@@ -1017,7 +954,7 @@ def do_move(event):
     last_y=event.y
     return "break"
 
-Insert_Icon = tk.Button(toolFrame , width=25, height=25, image=iconOfGlass, highlightthickness=0 , relief="flat",command=insert)
+Insert_Icon = tk.Button(toolFrame , width=25, height=25, image=icons["glass"], highlightthickness=0 , relief="flat",command=insert)
 Insert_Icon.place(x = 40 , y = 40)
 
 #------------------------------------------Insert_Image_End----------------------------------------------------------------+
@@ -1048,14 +985,14 @@ def toggle_mic():
     global Ai_Mode , start_AI_is_running , sound_on
     Ai_Mode= not Ai_Mode
     sound_on=True
-    sound_button.configure(image=iconofsoundOn)
+    sound_button.configure(image=icons["sound_on"])
     if Ai_Mode:
-        Mic_Button.configure(image=Mic_open)
+        Mic_Button.configure(image=icons["mic_open"])
         if not start_AI_is_running:
             start_AI()
             start_AI_is_running=True
     else :
-        Mic_Button.configure(image=Mic_Icon)
+        Mic_Button.configure(image=icons["mic"])
         ptt_stop()
         start_AI_is_running=False
 
@@ -1079,16 +1016,16 @@ def voice_command(text):
     # --- we have to Use 'in text' for flexible command matching ---
     
     if 'hi' in text or 'hello' in text or 'introduce' in text:
-        HelloSir.play()
+        sound.play("HelloSir")
         time.sleep(2)
         
     elif 'pencil' in text or 'benzene'  in text:
         usePencil()
-        PencilResponse.play()
+        sound.play("PencilResponse")
         
     elif 'eraser' in text or 'era' in text or 'lazer' in text:
         useEraser()
-        EraserResponse.play()
+        sound.play("EraserResponse")
         
     elif 'color' in text or 'colour' in text:
         selectcolor()
@@ -1102,25 +1039,25 @@ def voice_command(text):
         solidline()
         
     elif 'nice' in text or 'good' in text or 'amazing' in text or 'excellent' in text:
-        ThankYou.play()
+        sound.play("ThankYou")
         
     elif 'arc' in text or 'semicircle' in text :
         select_arc()
-        ArcResponse.play()
+        sound.play("ArcResponse")
     elif 'quit' in text or 'end' in text or 'stop' in text:
         ptt_stop()
     elif 'rectangle' in text or 'rect' in text :
         select_rectangle()
-        RectangleResponse.play()
+        sound.play("RectangleResponse")
     elif 'triangle' in text or 'tri' in shape:
         select_triangle()
-        TriangleResponse.play()
+        sound.play("TriangleResponse")
     elif 'circle' in text or 'ring' in text or 'round' in text :
         select_circle()
-        CircleResponse.play()
+        sound.play("CircleResponse")
     elif 'pentagon' in text or '5 shapes' in text :
         select_polygon()
-        PentagonResponse.play()
+        sound.play("PentagonResponse")
 
 
 def ptt_start(event=None):
@@ -1133,14 +1070,14 @@ def ptt_start(event=None):
 
 def ptt_stop(event=None):
     global Ai_Mode
-    AiModeOff.play()
+    sound.play("AiModeOff")
     print("Ai Stops listening)")
     if Ai_Mode:
         Ai_Mode = False
 
 def listen():
     global stream
-    AiModeOn.play()
+    sound.play("AiModeOn")
     print("Ai is listening")
     r=sr.Recognizer()
     with sr.Microphone() as source:
@@ -1173,7 +1110,7 @@ def start_AI():
         listener_thread.start()
         start_AI_is_running=True
 #Button Creating
-Mic_Button=Button(frameOne , width=64, height=64,image=Mic_Icon,command=toggle_mic ,bg="#D6F5EF", activebackground="#D6F5EF"  , highlightthickness=0 , relief="flat",bd=0)
+Mic_Button=Button(frameOne , width=64, height=64,image=icons["mic"],command=toggle_mic ,bg="#D6F5EF", activebackground="#D6F5EF"  , highlightthickness=0 , relief="flat",bd=0)
 Mic_Button.place(x=930,y=48)
 
 Mic_Label = tk.Label(frameOne , text="Voice Command" , width=15 ,bg="#D6F5EF" ,font=("Calibri",8) )
@@ -1212,21 +1149,23 @@ def on_resize(event):
         HelpSettingFrame.place(x=850,y=0)
         zoomFrame.place(x = 800 , y = 0)
 
-welcome.play()
+# welcome.play()
+# sound.play.play("welcome")
+sound.play("welcome")
 usePencil()
 #-----------------------------------------------------Sound-Button----------------------------------------------------------------------
 def toggle_sound():
     global sound_on
     sound_on= not sound_on
     if sound_on:
-        sound_button.configure(image=iconofsoundOn)
+        sound_button.configure(image=icons["sound_on"])
         if sound_on:
-            SoundOn_Sound.play()
+            sound.play("SoundOn_Sound")
     else :
-        sound_button.configure(image=iconofsoundOff)
-        SoundOff_Sound.play()
+        sound_button.configure(image=icons["sound_off"])
+        sound.play("SoundOff_Sound")
 
-sound_button=Button(frameOne  , width=24, height=24 ,image=iconofsoundOn ,command=toggle_sound ,bg="#FF9578", activebackground="#FF9578" , highlightthickness=0 , relief="flat",bd=0)
+sound_button=Button(frameOne  , width=24, height=24 ,image=icons["sound_on"] ,command=toggle_sound ,bg="#FF9578", activebackground="#FF9578" , highlightthickness=0 , relief="flat",bd=0)
 sound_button.place(x=179, y=2)
 #-----------------------------------------------------Sound-Button-End---------------------------------------------------------------
 window.bind("<Configure>", on_resize)
