@@ -23,7 +23,7 @@ import ttkbootstrap as ttk
 from Utils.utils_icons import load_icons
 from Utils.utils_audio import SoundManager
 # from Menu_Utils.menu_windows import MenuWindow
-
+# from Utils.color_function import Color_Fun
 
 window = tk.Tk()
 window.geometry("1100x600")
@@ -37,6 +37,7 @@ sound_on=True#-->Default Sound state
 #! Importing Module Function
 icons = load_icons(window)
 sound = SoundManager()
+# color_box = Color_Fun()
 # menu_win = MenuWindow(window)
 
 
@@ -146,6 +147,7 @@ def RedColor():
     current_color_label.config(bg="red")
 redButton=Button(colorFrame ,bg="Red",width=3 , height=1,activebackground="red", command=RedColor, highlightthickness=0 , relief="flat")
 redButton.grid(row=0,column=0 ,padx=5 , pady=5)
+
 
 def GreenColor():
     stroke_color.set("Green")
