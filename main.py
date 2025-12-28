@@ -23,7 +23,8 @@ import ttkbootstrap as ttk
 from Utils.utils_icons import load_icons
 from Utils.utils_audio import SoundManager
 # from Menu_Utils.menu_windows import MenuWindow
-# from Utils.color_function import Color_Fun
+from Utils.color_function import RedColor
+from Utils.utils_global_var import Global_Variable
 
 window = tk.Tk()
 window.geometry("1100x600")
@@ -37,7 +38,8 @@ sound_on=True#-->Default Sound state
 #! Importing Module Function
 icons = load_icons(window)
 sound = SoundManager()
-# color_box = Color_Fun()
+global_variable = Global_Variable()
+
 # menu_win = MenuWindow(window)
 
 
@@ -56,19 +58,19 @@ frameFoot = tk.Frame(window , bg="#134B40" , width=1280,height = 35)
 frameFoot.place(x = 0 , y = 565)
 # frameFoot.place(x = 0 , y = -1)
 #-----------Global-Variables-------------------------------------------------------------------
-shape=""
-preview_shape=""
-undo_stack=[]
-redo_stack=[]
-stroke_color = tk.StringVar(value="white")
-global current_line# 1= solid, 2=Dashed, 3=Dotted
-current_line=1
-insert_image=None
-image_on_canvas=None
-inserted_image=[]
-original_image=None
-canvas_virtual_size=100000
-pencil_select=0
+# shape=""
+# preview_shape=""
+# undo_stack=[]
+# redo_stack=[]
+# stroke_color = tk.StringVar(value="white")
+# global current_line# 1= solid, 2=Dashed, 3=Dotted
+# current_line=1
+# insert_image=None
+# image_on_canvas=None
+# inserted_image=[]
+# original_image=None
+# canvas_virtual_size=100000
+# pencil_select=0
 #^^^^^^^^^^^^^^^^^^Global____Variables_^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 #One More Essential Frame Is The MenuFrame Which Is In Line 120
 # ------------------------------------------Parent-Frame-Section-Close----------------------------------------------------------+
@@ -131,7 +133,7 @@ cameraLabel = tk.Label(frameOne , text="Camera" , width=20 ,bg="#D6F5EF"  )
 cameraLabel.place(x = 793 , y = 130)
 #-------------------------------------------Camera-Close-----------------------------------------------------------------------------
 #-------------------------------------------Current-Color----------------------------------------------------------------------------------------
-current_color_label=tk.Label(frameOne,width=4,height=1,bg=stroke_color.get(),relief="solid",bd=1)
+current_color_label=tk.Label(frameOne,width=4,height=1,bg=global_variable.stroke_color.get(),relief="solid",bd=1)
 current_color_label.place(x=752,y=88)
 CurrentColorFont = tk.Label(frameOne , text="Current Colour" , width=11 ,bg="#D6F5EF" ,font=("Calibri",8) )
 CurrentColorFont.place(x = 735 , y = 110)
@@ -142,12 +144,12 @@ CurrentColorFont.place(x = 735 , y = 110)
 colorFrame=tk.Frame(frameOne , height=170, width=230 , borderwidth=0 ,relief="sunken" ,bg="#D6F5EF")
 colorFrame.place(x=545,y=45)
 
-def RedColor():
-    stroke_color.set("Red")
-    current_color_label.config(bg="red")
-redButton=Button(colorFrame ,bg="Red",width=3 , height=1,activebackground="red", command=RedColor, highlightthickness=0 , relief="flat")
-redButton.grid(row=0,column=0 ,padx=5 , pady=5)
-
+# def RedColor():
+#     stroke_color.set("Red")
+#     current_color_label.config(bg="red")
+# redButton=Button(colorFrame ,bg="Red",width=3 , height=1,activebackground="red", command=RedColor, highlightthickness=0 , relief="flat")
+# redButton.grid(row=0,column=0 ,padx=5 , pady=5)
+RedColor()
 
 def GreenColor():
     stroke_color.set("Green")
@@ -633,7 +635,7 @@ size_label.place(x=10, y=500)
 canvas = tk.Canvas(frameTwo , width=1280 , height=800 , bg="white")
 canvas.grid(row=0,column=0)
 
-canvas.configure(scrollregion=(-canvas_virtual_size,-canvas_virtual_size,canvas_virtual_size,canvas_virtual_size))
+canvas.configure(scrollregion=(-global_variable.canvas_virtual_size,-global_variable.canvas_virtual_size,global_variable.canvas_virtual_size,global_variable.canvas_virtual_size))
 canvas.config(cursor="crosshair")
 
 # ----------------------------------------------------------------------------------------------------
@@ -930,7 +932,7 @@ def insert():
         width,height=original_image.size
         #convert image for tkinter
         tk_image=ImageTk.PhotoImage(img)
-        inserted_image.append(tk_image)
+        global_variable.inserted_image.append(tk_image)
         window.update()
         #place image on the center of the canvas
         x=canvas.winfo_width()//2

@@ -1,1 +1,2 @@
-2
+
+        original_image=img.copy()
