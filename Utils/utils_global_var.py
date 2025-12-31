@@ -1,6 +1,7 @@
 import tkinter as tk
 
-class Global_Variable:
+# class Global_Variable:
+def global_variable():
     shape=""
     preview_shape=""
     undo_stack=[]

@@ -1,4 +1,3 @@
-# All Required Packages And Libraries Required For This Project
 import tkinter as tk
 import cv2
 import mediapipe as mp
@@ -23,8 +22,8 @@ import ttkbootstrap as ttk
 from Utils.utils_icons import load_icons
 from Utils.utils_audio import SoundManager
 # from Menu_Utils.menu_windows import MenuWindow
-from Utils.color_function import RedColor
-from Utils.utils_global_var import Global_Variable
+# from Utils.color_function import RedColor
+
 
 window = tk.Tk()
 window.geometry("1100x600")
@@ -38,7 +37,6 @@ sound_on=True#-->Default Sound state
 #! Importing Module Function
 icons = load_icons(window)
 sound = SoundManager()
-global_variable = Global_Variable()
 
 # menu_win = MenuWindow(window)
 
@@ -57,21 +55,22 @@ frameTwo.grid(row=1 , column=0)
 frameFoot = tk.Frame(window , bg="#134B40" , width=1280,height = 35)
 frameFoot.place(x = 0 , y = 565)
 # frameFoot.place(x = 0 , y = -1)
-#-----------Global-Variables-------------------------------------------------------------------
-# shape=""
-# preview_shape=""
-# undo_stack=[]
-# redo_stack=[]
-# stroke_color = tk.StringVar(value="white")
-# global current_line# 1= solid, 2=Dashed, 3=Dotted
-# current_line=1
-# insert_image=None
-# image_on_canvas=None
-# inserted_image=[]
-# original_image=None
-# canvas_virtual_size=100000
-# pencil_select=0
-#^^^^^^^^^^^^^^^^^^Global____Variables_^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#------------------------------------Global-Variables-------------------------------------------------------------------
+shape=""
+preview_shape=""
+undo_stack=[]
+redo_stack=[]
+stroke_color = tk.StringVar(value="white")
+global current_line# 1= solid, 2=Dashed, 3=Dotted
+current_line=1
+insert_image=None
+image_on_canvas=None
+inserted_image=[]
+original_image=None
+canvas_virtual_size=100000
+pencil_select=0
+
+# ------------------------------------------GlobalVariable----------------------------------------------------------+
 #One More Essential Frame Is The MenuFrame Which Is In Line 120
 # ------------------------------------------Parent-Frame-Section-Close----------------------------------------------------------+
 
@@ -89,7 +88,7 @@ def selectcolor():
     current_color_label.config(bg=selectedcolor[1])
 
 
-colorBoxButton= Button(frameOne  , width=55, height=55, command=selectcolor , image= icons["select_color"] , bg="#D6F5EF" , activebackground="#D6F5EF" , highlightthickness=0 , relief="flat",bd=0)
+colorBoxButton= tk.Button(frameOne  , width=55, height=55, command=selectcolor , image= icons["select_color"] , bg="#D6F5EF" , activebackground="#D6F5EF" , highlightthickness=0 , relief="flat",bd=0)
 colorBoxButton.place(x=740, y=37)
 
 #-------------------------------------------Color-Box-Frame-Close--------------------------------------------------------------------+
@@ -132,24 +131,29 @@ CameraButton.place(x=820, y=40)
 cameraLabel = tk.Label(frameOne , text="Camera" , width=20 ,bg="#D6F5EF"  )
 cameraLabel.place(x = 793 , y = 130)
 #-------------------------------------------Camera-Close-----------------------------------------------------------------------------
+
+
 #-------------------------------------------Current-Color----------------------------------------------------------------------------------------
-current_color_label=tk.Label(frameOne,width=4,height=1,bg=global_variable.stroke_color.get(),relief="solid",bd=1)
+
+# gives the idea of current selected color
+current_color_label=tk.Label(frameOne,width=4,height=1,bg=stroke_color.get(),relief="solid",bd=1)
 current_color_label.place(x=752,y=88)
-CurrentColorFont = tk.Label(frameOne , text="Current Colour" , width=11 ,bg="#D6F5EF" ,font=("Calibri",8) )
-CurrentColorFont.place(x = 735 , y = 110)
 
 #-------------------------------------------Current-Color--------------------------------------------------------------------------------
+
+
+
+
 #-------------------------------------------Colors-Frame-Open--------------------------------------------------------------------+
 # This Section Handle The Required Basic Colors Of Sets At The Upper Frame Of The Paint Window
-colorFrame=tk.Frame(frameOne , height=170, width=230 , borderwidth=0 ,relief="sunken" ,bg="#D6F5EF")
+colorFrame=tk.LabelFrame(frameOne ,text="Colors", height=170, width=230 , borderwidth=0 ,relief="sunken" ,bg="#D6F5EF")
 colorFrame.place(x=545,y=45)
 
-# def RedColor():
-#     stroke_color.set("Red")
-#     current_color_label.config(bg="red")
-# redButton=Button(colorFrame ,bg="Red",width=3 , height=1,activebackground="red", command=RedColor, highlightthickness=0 , relief="flat")
-# redButton.grid(row=0,column=0 ,padx=5 , pady=5)
-RedColor()
+def RedColor():
+    stroke_color.set("Red")
+    current_color_label.config(bg="red")
+redButton=Button(colorFrame ,bg="Red",width=3 , height=1,activebackground="red", command=RedColor, highlightthickness=0 , relief="flat")
+redButton.grid(row=0,column=0 ,padx=5 , pady=5)
 
 def GreenColor():
     stroke_color.set("Green")
@@ -206,9 +210,6 @@ pinkButton=Button(colorFrame ,bg="pink",width=3,height = 1, activebackground="pi
 pinkButton.grid(row=1,column=4,padx=1 , pady=1)
 
 MoreColors=Button
-
-coloursLabel = tk.Label(frameOne , text="Colours" , width=20 ,bg="#D6F5EF"  )
-coloursLabel.place(x = 590 , y = 130)
 #-------------------------------------------Colors-Frame-Close--------------------------------------------------------------------+
 
 # ------------------------------------------Tool-Functionality-Section-Open----------------------------------------------------------+
@@ -222,7 +223,6 @@ def usePencil():
     if sound_on and not start_AI_is_running :
         if pencil_select !=1:
             sound.play("Pencil_Sound")
-
             stroke_color.get()
         if pencil_select==1:
             window.after(6000, lambda:sound.play("DefaultBlack_Sound"))
@@ -572,7 +572,7 @@ def zoom_fake(scale):
 #--------------------------------------------Zoom Close---------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------+
 # Tool Frame Which Will Contain All The Required Tools etc - pencil , eraser , color
-toolFrame = tk.Frame(frameOne , height=120 , width=120 , bg="#D6F5EF", highlightthickness=0 , relief="flat" )
+toolFrame = tk.LabelFrame(frameOne , text="Toolbar",height=120 , width=120 , bg="#D6F5EF", highlightthickness=0 , relief="flat" )
 toolFrame.place(x = 20  , y = 50 )
 
 #Pencil Button/Icon -> Onclicking The Button The User Can Use The Pencil   
@@ -593,9 +593,6 @@ fillIcon.place(x=80, y = 5)
 
 # One More Icon keep x = 80 and y = 40
 
-# ToolLabel
-toolLabel = tk.Label(toolFrame , text="Tool Bar" , width=25 , bg="#D6F5EF")
-toolLabel.place(x=-30 , y= 80)
 # ----------------------------------------------------------------------------------------------------
 # Adding Borders Along The Different Tools
 border_frame_first = tk.Frame(frameOne , width=2 , height= 100 , bg="black")
@@ -635,13 +632,13 @@ size_label.place(x=10, y=500)
 canvas = tk.Canvas(frameTwo , width=1280 , height=800 , bg="white")
 canvas.grid(row=0,column=0)
 
-canvas.configure(scrollregion=(-global_variable.canvas_virtual_size,-global_variable.canvas_virtual_size,global_variable.canvas_virtual_size,global_variable.canvas_virtual_size))
+canvas.configure(scrollregion=(-canvas_virtual_size,-canvas_virtual_size,canvas_virtual_size,canvas_virtual_size))
 canvas.config(cursor="crosshair")
 
 # ----------------------------------------------------------------------------------------------------
 
 #----------------------------------------------Line-Type----------------------------------------------------------------
-Line_TypeFrame=ctk.CTkFrame(master=frameOne , height=75, width=130 ,fg_color="#E5F0EF")
+Line_TypeFrame=tk.LabelFrame(frameOne , text="Linetypes", height=75, width=130 )
 Line_TypeFrame.place(x=165,y=52)
 def solidline():
     global current_line
@@ -678,9 +675,6 @@ def DottedLine():
     canvas.config(cursor = "dot")
 DottedLineButton=ctk.CTkButton(master=Line_TypeFrame,text="................",font=("Arial",18),width=120,height=10,command=DottedLine,fg_color="#E5F0EF",text_color="black",hover_color="white")
 DottedLineButton.grid(row=3,column=0)
-LineType_label = tk.Label(frameOne , text="Line Type", bg="#D6F5EF")
-LineType_label.place(x=200 , y=130)
-
 #----------------------------------------------Line-Type------------------------------------------------------------------
 
 # ----------------------------------------------------------------------------------------------------
@@ -720,7 +714,7 @@ def paint(event):
 
 
 #-------------------------------------Shape--Frame---Open--------------------------------------------------------------------------------------
-shapeFrame=tk.Frame(frameOne , height=70, width=220 , borderwidth=0 ,relief="sunken" ,bg="#E6F1F0")
+shapeFrame=tk.LabelFrame(frameOne , text="Shapes",height=70, width=220 , borderwidth=0 ,relief="sunken" ,bg="#E6F1F0")
 shapeFrame.place(x=300,y=55)
 #Circle--
 def select_circle():
@@ -757,8 +751,6 @@ def select_triangle():
 triangle_Shape_Button = ctk.CTkButton(shapeFrame, text="", command=select_triangle, width=3, height=1,  image = icons["triangle"] , fg_color = "transparent")
 triangle_Shape_Button.place(x = 120 , y = 0)
 
-scale_label = tk.Label(frameOne , text="Select Shape", bg="#D6F5EF")
-scale_label.place(x=370 , y=130)
 #Polygon-5sides-----------------------------------------
 def select_polygon():
     global shape
@@ -932,7 +924,7 @@ def insert():
         width,height=original_image.size
         #convert image for tkinter
         tk_image=ImageTk.PhotoImage(img)
-        global_variable.inserted_image.append(tk_image)
+        inserted_image.append(tk_image)
         window.update()
         #place image on the center of the canvas
         x=canvas.winfo_width()//2
@@ -1117,8 +1109,8 @@ def start_AI():
 Mic_Button=Button(frameOne , width=64, height=64,image=icons["mic"],command=toggle_mic ,bg="#D6F5EF", activebackground="#D6F5EF"  , highlightthickness=0 , relief="flat",bd=0)
 Mic_Button.place(x=930,y=48)
 
-Mic_Label = tk.Label(frameOne , text="Voice Command" , width=15 ,bg="#D6F5EF" ,font=("Calibri",8) )
-Mic_Label.place(x = 918 , y = 130)
+# Mic_Label = tk.Label(frameOne , text="Voice Command" , width=15 ,bg="#D6F5EF" ,font=("Calibri",8) )
+# Mic_Label.place(x = 918 , y = 130)
 # CameraButton= Button(frameOne  , width=90, height=90 ,image= iconOfCamera ,command=camera ,bg="#D6F5EF" , activebackground="#D6F5EF" , highlightthickness=0 , relief="flat",bd=0)
 # CameraButton.place(x=820, y=50)
 #-------------------------------------------AI-Function Ends-------------------------------------------------------------+
@@ -1153,8 +1145,6 @@ def on_resize(event):
         HelpSettingFrame.place(x=850,y=0)
         zoomFrame.place(x = 800 , y = 0)
 
-# welcome.play()
-# sound.play.play("welcome")
 sound.play("welcome")
 usePencil()
 #-----------------------------------------------------Sound-Button----------------------------------------------------------------------
