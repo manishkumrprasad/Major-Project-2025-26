@@ -43,18 +43,16 @@ sound = SoundManager()
 
 # ------------------------------------------Parent-Frame-Section-Open----------------------------------------------------------+
 # Parent Paint Toolbars / Which Will Contain All The Tools Frame Such As toolbar , color pallette , file management , help box etc
+menuFrame = tk.Frame(window , height=30 , width=1280 , bg="#FF9578")
+menuFrame.grid(row = 0 , column = 0)
+
 frameOne = tk.Frame(window , bg="#D6F5EF" , width=1280,height=160)
-frameOne.grid(row=0 , column=0 , sticky=tk.NW)
-# frameOne = ttk.Frame(window , bootstyle="primary" , width=1280,height=160)
-# frameOne.grid(row=0 , column=0 , sticky=tk.NW)
+frameOne.grid(row=1 , column=0 , sticky=tk.NW)
 
-# Parent Paint Frame Which Contain Only The Canvas Frame
 frameTwo = tk.Frame(window , bg="#134B40" , width=1280,height=800)
-frameTwo.grid(row=1 , column=0)
+frameTwo.grid(row=2 , column=0)
 
-frameFoot = tk.Frame(window , bg="#134B40" , width=1280,height = 35)
-frameFoot.place(x = 0 , y = 565)
-# frameFoot.place(x = 0 , y = -1)
+frameFoot = tk.Frame(window , bg="#134B40" , width=1280)
 #------------------------------------Global-Variables-------------------------------------------------------------------
 shape=""
 preview_shape=""
@@ -247,15 +245,6 @@ def addText():
     add_text_window()
 # ------------------------------------------Tool-Functionality-Section-Close----------------------------------------------------------+
 
-# ------------------------------------------Menu-Section-Open----------------------------------------------------------+
-# The Menu Bar Will Contain Important Stuff Like File , Help , Edit , Undo , Redo , Setting Bar And Etc
-
-menuFrame = tk.Frame(frameOne , height=30 , width=1280 , bg="#FF9578")
-menuFrame.place(x=0,y=0)
-
-
-# ------------------------------------------Menu-Section-Close----------------------------------------------------------+
-
 #-------------------------------------------Save-Image-Frame-Open--------------------------------------------------------------------+
 # Contains The Save Button Details
 def SaveImage():
@@ -281,7 +270,7 @@ def saveImageEvent():
     SaveImage()  
 
 
-saveImagebutton= Button(frameOne , image= icons["save"] ,command=SaveImage, width=20, height= 20 , highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578",)
+saveImagebutton= Button(menuFrame , image= icons["save"] ,command=SaveImage, width=20, height= 20 , highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578",)
 saveImagebutton.place(x=15, y=2)
 
 #-------------------------------------------Save-Image-Frame-Close--------------------------------------------------------------------+
@@ -299,7 +288,7 @@ def clear() :
 def ClearAllEvent():
     clear()  
 
-clearImageFrame= Button(frameOne , width=20 , height=20, image = icons["clear"] , command=clear, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
+clearImageFrame= Button(menuFrame , width=20 , height=20, image = icons["clear"] , command=clear, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
 clearImageFrame.place(x=60, y=2)
 #-------------------------------------------Clear-image-Frame-Close------------------------------------------------------------------------+
 
@@ -309,7 +298,7 @@ def undo():
         last_item=undo_stack.pop()
         canvas.itemconfig(last_item,state='hidden')
         redo_stack.append(last_item)
-undo_button=Button(frameOne , width=20 , height=20, image = icons["undo"] , command=undo, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
+undo_button=Button(menuFrame, width=20 , height=20, image = icons["undo"] , command=undo, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
 undo_button.place(x=110,y=2)
 def redo():
     global undo_stack , redo_stack
@@ -317,7 +306,7 @@ def redo():
         item_id=redo_stack.pop()
         canvas.itemconfig(item_id,state='normal')
         undo_stack.append(item_id)
-redo_button=Button(frameOne , width=20 , height=20, image = icons["redo"], command=redo, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
+redo_button=Button(menuFrame , width=20 , height=20, image = icons["redo"], command=redo, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
 redo_button.place(x=140,y=2)
 
 #-------------------------------------------UNDO_BUTTON_FRAME_CLOSE------------------------------------------------------------------------------------+
@@ -449,7 +438,7 @@ def add_text_window():
 
 #--------------------------------------------Help-setting-Frame-Open------------------------------------------------------------------------------+
 # The Help Button Details
-HelpSettingFrame=tk.Frame(frameOne , height=30, width=240 , borderwidth=0 ,relief="sunken",bg="#FF9578")
+HelpSettingFrame=tk.Frame(menuFrame , height=30, width=240 , borderwidth=0 ,relief="sunken",bg="#FF9578")
 HelpSettingFrame.place(x=850,y=0)
 
 # Help= Button(HelpSettingFrame , text="Help" , width=10, highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578" , command=help_window)
@@ -1159,7 +1148,7 @@ def toggle_sound():
         sound_button.configure(image=icons["sound_off"])
         sound.play("SoundOff_Sound")
 
-sound_button=Button(frameOne  , width=24, height=24 ,image=icons["sound_on"] ,command=toggle_sound ,bg="#FF9578", activebackground="#FF9578" , highlightthickness=0 , relief="flat",bd=0)
+sound_button=Button(menuFrame , width=24, height=24 ,image=icons["sound_on"] ,command=toggle_sound ,bg="#FF9578", activebackground="#FF9578" , highlightthickness=0 , relief="flat",bd=0)
 sound_button.place(x=179, y=2)
 #-----------------------------------------------------Sound-Button-End---------------------------------------------------------------
 window.bind("<Configure>", on_resize)
