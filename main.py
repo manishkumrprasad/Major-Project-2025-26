@@ -53,6 +53,7 @@ frameTwo = tk.Frame(window , bg="#134B40" , width=1280,height=800)
 frameTwo.grid(row=2 , column=0)
 
 frameFoot = tk.Frame(window , bg="#134B40" , width=1280)
+frameFoot.grid(row=3,column=0)
 #------------------------------------Global-Variables-------------------------------------------------------------------
 shape=""
 preview_shape=""
@@ -460,105 +461,6 @@ About= Button(HelpSettingFrame , text="About us" , width=10, highlightthickness=
 About.grid(row=0, column=2)
 
 #--------------------------------------------Help-Setting-Frame-Close-----------------------------------------------------------------------------+
-#--------------------------------------------Zoom---------------------------------------------------------------------
-
-zoom_level = 1.0
-
-zoomFrame = tk.Frame(frameFoot, width=300,height = 35 )
-zoomFrame.place(x = 800 , y = 0)
-
-value = 100
-# zoom_scrollbar = tk.Scale(frameFoot, from_=10, to=200, orient="horizontal",width = 7 ,length = 200 , label="         Zoom In/Zoom Out")
-
-showCordinates = tk.Frame(frameFoot , width=200 , height=35)
-showCordinates.place(x = 50 , y = 0)
-
-# cordinates = "X = {x} : Y = {y}"
-def image_resize_onCanvas():
-    global original_image,image_id,zoom_level
-    if original_image and image_id:
-        new_width=int(original_image.width*zoom_level)
-        new_height=int(original_image.height*zoom_level)
-        resized_image=original_image.resize((new_width,new_height))
-        tk_image=ImageTk.PhotoImage(resized_image)
-        canvas.itemconfig(image_id,image=tk_image)
-        canvas.tk_image=tk_image
-
-def apply_zoom_from_scrollbar(value):
-    global zoom_level
-    scale = int(value) / (zoom_level * 100)
-    zoom_level = int(value) / 100
-    canvas.scale("all", 0, 0, scale, scale)
-    image_resize_onCanvas()
-    # canvas.configure(scrollregion=canvas.bbox("all"))
-
-# zoom_scrollbar.config(command=apply_zoom_from_scrollbar)
-
-def increment_zoom_scale():
-    global zoom_scrollbar,value
-    value = value + 1
-    zoom_scrollbar.set(value) 
-
-def decrement_zoom_scale():
-    global zoom_scrollbar
-    zoom_scrollbar = zoom_scrollbar - 1 
-
-zoom_scrollbar = tk.Scale(zoomFrame, from_=5, to=300, orient="horizontal",width = 7 ,length = 200, variable=value , command = apply_zoom_from_scrollbar)
-zoom_scrollbar.set(value)
-zoom_scrollbar.place(x=50, y=-2)
-
-zoom_Out_Label = tk.Button(zoomFrame ,  image= icons["zoom_out"] , width=20 , height=20,command=decrement_zoom_scale)
-zoom_Out_Label.place(x = 10 , y = 10)
-
-zoom_In_Label = tk.Button(zoomFrame , image= icons["zoom_in"], width=20 , height=20 ,command=increment_zoom_scale)
-zoom_In_Label.place(x = 270 , y = 10)
-
-# Pan with middle mouse button
-drag_start = [0, 0]
-
-def start_pan(event):
-    drag_start[0] = event.x
-    drag_start[1] = event.y
-
-def do_pan(event):
-    dx = drag_start[0] - event.x
-    dy = drag_start[1] - event.y
-    canvas.xview_scroll(int(dx), "units")
-    canvas.yview_scroll(int(dy), "units")
-    drag_start[0] = event.x
-    drag_start[1] = event.y
-
-# Mouse wheel zoom
-def zoom(event):
-    global zoom_level
-    if event.delta > 0 or event.num == 4:
-        scale = 1.1
-    elif event.delta < 0 or event.num == 5:
-        scale = 0.9
-    else:
-        return
-
-    if not (0.5 <= zoom_level * scale <= 5):
-        return
-
-    zoom_level *= scale
-    canvas.scale("all", 0, 0, scale, scale)
-    # canvas.configure(scrollregion=canvas.bbox("all"))
-    zoom_scrollbar.set(int(zoom_level * 100))
-    image_resize_onCanvas()
-
-def zoom_fake(scale):
-    global zoom_level
-    if not (0.5 <= zoom_level * scale <= 5):
-        return
-
-    zoom_level *= scale
-    canvas.scale("all", 0, 0, scale, scale)
-    image_resize_onCanvas()
-    # canvas.configure(scrollregion=canvas.bbox("all"))
-    zoom_scrollbar.set(int(zoom_level * 100))
-
-#--------------------------------------------Zoom Close---------------------------------------------------------------------------
 # ----------------------------------------------------------------------------------------------------+
 # Tool Frame Which Will Contain All The Required Tools etc - pencil , eraser , color
 toolFrame = tk.LabelFrame(frameOne , text="Toolbar",height=120 , width=120 , bg="#D6F5EF", highlightthickness=0 , relief="flat" )
@@ -1127,8 +1029,7 @@ def on_resize(event):
         frameFoot.place(x= 0 , y = 612)
         HelpSettingFrame.place(x=1050,y=0)
         zoomFrame.place(x = 980 , y = 0)
-
-
+        
     else:
         frameFoot.place(x= 0 , y = 565)
         HelpSettingFrame.place(x=850,y=0)
@@ -1153,4 +1054,104 @@ sound_button.place(x=179, y=2)
 #-----------------------------------------------------Sound-Button-End---------------------------------------------------------------
 window.bind("<Configure>", on_resize)
 # ---------------------------------------Responsive-Setting-Close------------------------------------------------------------
+#--------------------------------------------Zoom---------------------------------------------------------------------
+
+zoom_level = 1.0
+
+zoomFrame = tk.Frame(frameFoot, width=300,height = 35 )
+zoomFrame.place(x = 800 , y = 0)
+
+value = 100
+# zoom_scrollbar = tk.Scale(frameFoot, from_=10, to=200, orient="horizontal",width = 7 ,length = 200 , label="         Zoom In/Zoom Out")
+
+showCordinates = tk.Frame(frameFoot , width=200 , height=35)
+showCordinates.place(x = 50 , y = 0)
+
+# cordinates = "X = {x} : Y = {y}"
+def image_resize_onCanvas():
+    global original_image,image_id,zoom_level
+    if original_image and image_id:
+        new_width=int(original_image.width*zoom_level)
+        new_height=int(original_image.height*zoom_level)
+        resized_image=original_image.resize((new_width,new_height))
+        tk_image=ImageTk.PhotoImage(resized_image)
+        canvas.itemconfig(image_id,image=tk_image)
+        canvas.tk_image=tk_image
+
+def apply_zoom_from_scrollbar(value):
+    global zoom_level
+    scale = int(value) / (zoom_level * 100)
+    zoom_level = int(value) / 100
+    canvas.scale("all", 0, 0, scale, scale)
+    image_resize_onCanvas()
+    # canvas.configure(scrollregion=canvas.bbox("all"))
+
+# zoom_scrollbar.config(command=apply_zoom_from_scrollbar)
+
+def increment_zoom_scale():
+    global zoom_scrollbar,value
+    value = value + 1
+    zoom_scrollbar.set(value) 
+
+def decrement_zoom_scale():
+    global zoom_scrollbar
+    zoom_scrollbar = zoom_scrollbar - 1 
+
+zoom_scrollbar = tk.Scale(zoomFrame, from_=5, to=300, orient="horizontal",width = 7 ,length = 200, variable=value , command = apply_zoom_from_scrollbar)
+zoom_scrollbar.set(value)
+zoom_scrollbar.place(x=50, y=-2)
+
+zoom_Out_Label = tk.Button(zoomFrame ,  image= icons["zoom_out"] , width=20 , height=20,command=decrement_zoom_scale)
+zoom_Out_Label.place(x = 10 , y = 10)
+
+zoom_In_Label = tk.Button(zoomFrame , image= icons["zoom_in"], width=20 , height=20 ,command=increment_zoom_scale)
+zoom_In_Label.place(x = 270 , y = 10)
+
+# Pan with middle mouse button
+drag_start = [0, 0]
+
+def start_pan(event):
+    drag_start[0] = event.x
+    drag_start[1] = event.y
+
+def do_pan(event):
+    dx = drag_start[0] - event.x
+    dy = drag_start[1] - event.y
+    canvas.xview_scroll(int(dx), "units")
+    canvas.yview_scroll(int(dy), "units")
+    drag_start[0] = event.x
+    drag_start[1] = event.y
+
+# Mouse wheel zoom
+def zoom(event):
+    global zoom_level
+    if event.delta > 0 or event.num == 4:
+        scale = 1.1
+    elif event.delta < 0 or event.num == 5:
+        scale = 0.9
+    else:
+        return
+
+    if not (0.5 <= zoom_level * scale <= 5):
+        return
+
+    zoom_level *= scale
+    canvas.scale("all", 0, 0, scale, scale)
+    # canvas.configure(scrollregion=canvas.bbox("all"))
+    zoom_scrollbar.set(int(zoom_level * 100))
+    image_resize_onCanvas()
+
+def zoom_fake(scale):
+    global zoom_level
+    if not (0.5 <= zoom_level * scale <= 5):
+        return
+
+    zoom_level *= scale
+    canvas.scale("all", 0, 0, scale, scale)
+    image_resize_onCanvas()
+    # canvas.configure(scrollregion=canvas.bbox("all"))
+    zoom_scrollbar.set(int(zoom_level * 100))
+
+#--------------------------------------------Zoom Close---------------------------------------------------------------------------
+
 window.mainloop()
