@@ -3,7 +3,7 @@ import cv2
 import mediapipe as mp
 import time
 import pygame
-import customtkinter as ctk # type: ignore
+import customtkinter as ctk 
 from tkinter import colorchooser
 from tkinter import Button
 from tkinter import messagebox
@@ -40,11 +40,11 @@ sound = SoundManager()
 
 # menu_win = MenuWindow(window)
 
-
+menuWidgetBackground = "#F4F4E9"; #make one more for hover effect
 # ------------------------------------------Parent-Frame-Section-Open----------------------------------------------------------+
 # Parent Paint Toolbars / Which Will Contain All The Tools Frame Such As toolbar , color pallette , file management , help box etc
-menuFrame = tk.Frame(window , height=30 , width=1280 , bg="#FF9578")
-menuFrame.grid(row = 0 , column = 0)
+menuFrame = ctk.CTkFrame(master= window , height=30 , width=1280 , fg_color= menuWidgetBackground)
+menuFrame.grid(row = 0 , column = 0 , sticky = "ew")
 
 frameOne = tk.Frame(window , bg="#D6F5EF" , width=1280,height=160)
 frameOne.grid(row=1 , column=0 , sticky=tk.NW)
@@ -270,14 +270,17 @@ def SaveImage():
 def saveImageEvent():
     SaveImage()  
 
+saveImageButton = ctk.CTkButton(
+    master=menuFrame,
+    text=None,
+    image= icons["save"] ,
+    fg_color=menuWidgetBackground,
+    command=SaveImage,
+    width=0,
+    height=0
+)
+saveImageButton.grid(row=0, column=0 ,sticky="w" , padx = 10 )
 
-saveImagebutton= Button(menuFrame , image= icons["save"] ,command=SaveImage, width=20, height= 20 , highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578",)
-saveImagebutton.place(x=15, y=2)
-
-#-------------------------------------------Save-Image-Frame-Close--------------------------------------------------------------------+
-
-#-------------------------------------------Clear-image-Frame-Open------------------------------------------------------------------------+
-# The Clear All Button Details
 def clear() :
     if sound_on and not start_AI_is_running:
         sound.play("clear_Sound")
@@ -289,28 +292,65 @@ def clear() :
 def ClearAllEvent():
     clear()  
 
-clearImageFrame= Button(menuFrame , width=20 , height=20, image = icons["clear"] , command=clear, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
-clearImageFrame.place(x=60, y=2)
-#-------------------------------------------Clear-image-Frame-Close------------------------------------------------------------------------+
+clearImageButton = ctk.CTkButton(
+    master=menuFrame,
+    text=None,
+    image= icons["clear"] ,
+    fg_color=menuWidgetBackground,
+    command=SaveImage,
+    width=0,
+    height=0
+)
+clearImageButton.grid(row=0, column=1 ,sticky="w" , padx = 10 )
 
-#-------------------------------------------UNDO_BUTTON_FRAME_OPEN------------------------------------------------------------------------------------+
 def undo():
+
+
     if undo_stack:
         last_item=undo_stack.pop()
         canvas.itemconfig(last_item,state='hidden')
         redo_stack.append(last_item)
-undo_button=Button(menuFrame, width=20 , height=20, image = icons["undo"] , command=undo, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
-undo_button.place(x=110,y=2)
+
 def redo():
     global undo_stack , redo_stack
     if redo_stack:
         item_id=redo_stack.pop()
         canvas.itemconfig(item_id,state='normal')
         undo_stack.append(item_id)
-redo_button=Button(menuFrame , width=20 , height=20, image = icons["redo"], command=redo, highlightthickness=0 , relief="flat" ,bg="#FF9578" , activebackground="#FF9578")
-redo_button.place(x=140,y=2)
 
-#-------------------------------------------UNDO_BUTTON_FRAME_CLOSE------------------------------------------------------------------------------------+
+undo_button = ctk.CTkButton(
+    master=menuFrame,
+    text=None,
+    image= icons["undo"] ,
+    fg_color=menuWidgetBackground,
+    command=SaveImage,
+    width=0,
+    height=0
+)
+undo_button.grid(row=0, column=2 ,sticky="w" , padx = 10 )
+
+redo_button = ctk.CTkButton(
+    master=menuFrame,
+    text=None,
+    image= icons["redo"] ,
+    fg_color=menuWidgetBackground,
+    command=SaveImage,
+    width=0,
+    height=0
+)
+redo_button.grid(row=0, column=3 ,sticky="w" , padx = 10 )
+
+sound_button = ctk.CTkButton(
+    master=menuFrame,
+    text=None,
+    image= icons["sound_on"] ,
+    fg_color=menuWidgetBackground,
+    command=SaveImage,
+    width=0,
+    height=0
+)
+sound_button.grid(row=0, column=4 ,sticky="w" , padx = 10 )
+#-------------------------------------------UNDO-BUTTON-FRAME-CLOSE------------------------------------------------------------------------------------+
 
 #-------------------------------------------New-Window-Open------------------------------------------------------------------------+
 def help_window():
@@ -439,27 +479,40 @@ def add_text_window():
 
 #--------------------------------------------Help-setting-Frame-Open------------------------------------------------------------------------------+
 # The Help Button Details
-HelpSettingFrame=tk.Frame(menuFrame , height=30, width=240 , borderwidth=0 ,relief="sunken",bg="#FF9578")
-HelpSettingFrame.place(x=850,y=0)
+HelpSettingFrame=ctk.CTkFrame(master = menuFrame , height=30 ,fg_color="#FF9578")
+# HelpSettingFrame.place(x=850,y=0)
+HelpSettingFrame.grid(row = 0, column = 1)
 
 # Help= Button(HelpSettingFrame , text="Help" , width=10, highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578" , command=help_window)
 
-Help = ctk.CTkButton(
+helpButton = ctk.CTkButton(
     master=HelpSettingFrame,
     text="Help",
-    width=100,
     text_color="black",
     fg_color="#FF9578",
     hover_color="#f7a58a",  # optional: slightly darker on hover
     command=help_window,
 )
-Help.grid(row=0, column=0)
-Setting= Button(HelpSettingFrame , text="Setting" , width=10, highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578",command=setting_window)
-Setting.grid(row=0, column=1)
+helpButton.grid(row=0, column=0)
 
-About= Button(HelpSettingFrame , text="About us" , width=10, highlightthickness=0 , relief="flat",bg="#FF9578" , activebackground="#FF9578",command=aboutus_window)
-About.grid(row=0, column=2)
-
+settingButton = ctk.CTkButton(
+    master=HelpSettingFrame,
+    text="Setting",
+    text_color="black",
+    fg_color="#FF9578",
+    hover_color="#f7a58a",  # optional: slightly darker on hover
+    command=help_window,
+)
+settingButton.grid(row=0, column=1)
+aboutButton = ctk.CTkButton(
+    master=HelpSettingFrame,
+    text="About Us",
+    text_color="black",
+    fg_color="#FF9578",
+    hover_color="#f7a58a",  # optional: slightly darker on hover
+    command=help_window,
+)
+aboutButton.grid(row=0, column=2)
 #--------------------------------------------Help-Setting-Frame-Close-----------------------------------------------------------------------------+
 # ----------------------------------------------------------------------------------------------------+
 # Tool Frame Which Will Contain All The Required Tools etc - pencil , eraser , color
@@ -1049,8 +1102,7 @@ def toggle_sound():
         sound_button.configure(image=icons["sound_off"])
         sound.play("SoundOff_Sound")
 
-sound_button=Button(menuFrame , width=24, height=24 ,image=icons["sound_on"] ,command=toggle_sound ,bg="#FF9578", activebackground="#FF9578" , highlightthickness=0 , relief="flat",bd=0)
-sound_button.place(x=179, y=2)
+
 #-----------------------------------------------------Sound-Button-End---------------------------------------------------------------
 window.bind("<Configure>", on_resize)
 # ---------------------------------------Responsive-Setting-Close------------------------------------------------------------
