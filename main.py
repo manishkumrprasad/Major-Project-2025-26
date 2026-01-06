@@ -26,7 +26,7 @@ from Utils.utils_audio import SoundManager
 
 
 window = tk.Tk()
-window.geometry("1100x600")
+# window.geometry("1100x600")
 appicon = tk.PhotoImage(file="Icons/App_Icon.png")
 window.iconphoto(False , appicon)
 
@@ -44,10 +44,16 @@ activeMenuWidgetBackground = "#F4F4E9";
 hoverMenuWidgetBackground = "#595957";
 # ------------------------------------------Parent-Frame-Section-Open----------------------------------------------------------+
 # Parent Paint Toolbars / Which Will Contain All The Tools Frame Such As toolbar , color pallette , file management , help box etc
+
+
+# window.columnconfigure(0, weight=1)
+# window.columnconfigure(1, weight=1)
+# window.rowconfigure(0, weight=1)
+
 menuFrame = ctk.CTkFrame(master= window , height=30 , fg_color= activeMenuWidgetBackground)
 menuFrame.grid(row = 0 , column = 0 , sticky = "ew")
 
-frameOne = tk.Frame(window , bg="#D6F5EF" , width=1280,height=160)
+frameOne = tk.Frame(window , bg="#D6F5EF" , width=1280 ,height=160)
 frameOne.grid(row=1 , column=0 , sticky=tk.NW)
 
 frameTwo = tk.Frame(window , bg="#134B40" , width=1280,height=800)
@@ -297,7 +303,7 @@ def redo():
         undo_stack.append(item_id)
 
 menuToolFrame = ctk.CTkFrame(master= menuFrame , fg_color=activeMenuWidgetBackground)
-menuToolFrame.grid(row = 0 , column = 0 , sticky = "nsew")
+menuToolFrame.grid(row = 0 , column = 0 )
 
 saveImageButton = ctk.CTkButton(
     master=menuToolFrame,
@@ -482,11 +488,12 @@ def add_text_window():
 #-------------------------------------------New-Window-Close------------------------------------------------------------------------+
 
 #--------------------------------------------Help-setting-Frame-Open------------------------------------------------------------------------------+
-HelpSettingFrame=ctk.CTkFrame(master = menuFrame ,fg_color="#151312",width=200)
+HelpSettingFrame=ctk.CTkFrame(master = menuToolFrame ,fg_color="#151312",width=200)
 HelpSettingFrame.grid(row = 0, column = 2 , sticky = "nsew")
+# HelpSettingFrame.pack(side = "right" )
 
 helpButton = ctk.CTkButton(
-    master=menuFrame,
+    master=HelpSettingFrame,
     text="Help",
     text_color="black",
     fg_color="#FF9578",
