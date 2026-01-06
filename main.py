@@ -43,24 +43,21 @@ sound = SoundManager()
 activeMenuWidgetBackground = "#F4F4E9"; 
 hoverMenuWidgetBackground = "#595957";
 # ------------------------------------------Parent-Frame-Section-Open----------------------------------------------------------+
-# Parent Paint Toolbars / Which Will Contain All The Tools Frame Such As toolbar , color pallette , file management , help box etc
-
-
-# window.columnconfigure(0, weight=1)
-# window.columnconfigure(1, weight=1)
-# window.rowconfigure(0, weight=1)
-
 menuFrame = ctk.CTkFrame(master= window , height=30 , fg_color= activeMenuWidgetBackground)
-menuFrame.grid(row = 0 , column = 0 , sticky = "ew")
+frameOne = ctk.CTkFrame(master = window  ,fg_color="#134B40",height=160)
+frameTwo = ctk.CTkFrame(master = window , fg_color="#134B40" ,height=800)
+frameFoot = ctk.CTkFrame(master = window , fg_color="#5FD5BD" , height=30)
 
-frameOne = tk.Frame(window , bg="#D6F5EF" , width=1280 ,height=160)
-frameOne.grid(row=1 , column=0 , sticky=tk.NW)
 
-frameTwo = tk.Frame(window , bg="#134B40" , width=1280,height=800)
-frameTwo.grid(row=2 , column=0)
+# menuFrame.grid(row = 0 , column = 0 , sticky = "ew")
+# frameOne.grid(row=1 , column=0 , sticky=tk.NW)
+# frameTwo.grid(row=2 , column=0)
+# frameFoot.grid(row=3,column=0)
 
-frameFoot = tk.Frame(window , bg="#134B40" , width=1280)
-frameFoot.grid(row=3,column=0)
+menuFrame.pack(side = "top" , fill = "x")
+frameOne.pack(side = "top", fill = "x")
+frameTwo.pack(side = "top", fill = "x")
+frameFoot.pack(side = "top", fill = "x" , pady = 20)
 #------------------------------------Global-Variables-------------------------------------------------------------------
 shape=""
 preview_shape=""
@@ -600,7 +597,7 @@ def solidline():
     DashedLineButton.configure(fg_color="#E5F0EF")
     DottedLineButton.configure(fg_color="#E5F0EF")
     canvas.config(cursor = "crosshair")
-SolidLineButton=ctk.CTkButton(master=Line_TypeFrame,text="________",font=("Arial",18,"bold"),width=120,height=20,command=solidline,fg_color="#E5F0EF",text_color="black",hover_color="white")
+SolidLineButton=ctk.CTkButton(master=Line_TypeFrame,text="━━━━",font=("Arial",18,"bold"),width=120,height=20,command=solidline,fg_color="#E5F0EF",text_color="black",hover_color="white")
 SolidLineButton.grid(row=1,column=0)
 
 def DashedLine():
